@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+    <channel>
+        <title>Хабр / Все публикации подряд</title>
+        <link>https://habr.com/</link>
+        <description><![CDATA[Все публикации подряд на Хабре]]></description>
+        <language>ru</language>
+        <managingEditor>editor@habr.com</managingEditor>
+        <generator>habr.com</generator>
+        <pubDate>Wed, 27 Jun 2018 10:46:56 GMT</pubDate>
+        <lastBuildDate></lastBuildDate>
+        <image>
+            <link>https://habr.com/</link>
+            <url>https://habr.com/images/logo.png</url>
+            <title>Хабр</title>
+        </image>
+
+        <item>
+            <title>
+                <![CDATA[Инфраструктура открытых ключей: Удостоверяющий Центр на базе утилиты OpenSSL и SQLite3 (Посткриптум)]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415423/</guid>
+            <link>https://habr.com/post/415423/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415423</link>
+            <description><![CDATA[<img src="https://habrastorage.org/webt/q1/i1/vs/q1i1vspugm4raux1pq5chgyysd4.png" align="left">В одном из комментариев, присланным участником <a href="https://habr.com/users/garex/" class="user_link">garex</a>, в ответ на <a href="https://habr.com/post/414249/">заявление</a>:<blockquote>Но сегодня в стандартной версии openssl отсутствует поддержка как ГОСТ Р 34.11-2012, так и ГОСТ Р 34.10-2012. Более того в версии 1.1 поддержка криптографии ГОСТ исключена из стандартной поставки («The GOST engine was out of date and therefore it has been removed.»)</blockquote> было сказано:<br>
+<blockquote>Чем не устраивает вот <a href="https://github.com/gost-engine/engine">эта</a>, которую «убрали?» <a href="https://github.com/gost-engine/engine">github.com/gost-engine/engine</a><br>
+<a href="https://github.com/rnixik/docker-openssl-gost/blob/master/Dockerfile">Пример</a> билда: <a href="https://github.com/rnixik/docker-openssl-gost/blob/master/Dockerfile">github.com/rnixik/docker-openssl-gost/blob/master/Dockerfile</a></blockquote> <a href="https://habr.com/post/415423/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415423#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 10:38:54 GMT</pubDate>
+            <dc:creator>saipr</dc:creator>
+            <category><![CDATA[Криптография]]></category>
+            <category><![CDATA[Информационная безопасность]]></category>
+            <category><![CDATA[SQLite]]></category>
+            <category><![CDATA[Open source]]></category>
+            <category><![CDATA[IT-инфраструктура]]></category>
+            <category><![CDATA[openssl]]></category>
+            <category><![CDATA[pki]]></category>
+            <category><![CDATA[certificate]]></category>
+            <category><![CDATA[sqlite3]]></category>
+            <category><![CDATA[tcl/tk]]></category>
+            <category><![CDATA[request]]></category>
+            <category><![CDATA[pkcs#10]]></category>
+            <category><![CDATA[pkcs#12]]></category>
+            <category><![CDATA[гост 34.10-2012]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[От левитирующих пластинок до звука из картонной коробки — 6 интересных гаджетов для винила]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415411/</guid>
+            <link>https://habr.com/post/415411/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415411</link>
+            <description><![CDATA[Виниловые пластинки вновь пользуются популярностью. Прослушивание музыки со смартфона и всеобщая диджитализация не отменили тренд на ретро. Винил сегодня становится не только источником «лампового» звука, но и предметом коллекционирования — как и некоторые необычные и забавные «виниловые гаджеты», которые мы объединили в этой подборке.<br>
+<br>
+<a href="https://habr.com/company/audiomania/blog/415411/"><img src="https://habrastorage.org/webt/9n/b2/el/9nb2elckeswz6vciraogn1obhmk.jpeg"></a> <a href="https://habr.com/post/415411/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415411#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 10:22:19 GMT</pubDate>
+            <dc:creator>Audioman</dc:creator>
+            <category><![CDATA[Работа со звуком]]></category>
+            <category><![CDATA[Блог компании Аудиомания]]></category>
+            <category><![CDATA[аудиомания]]></category>
+            <category><![CDATA[винил]]></category>
+            <category><![CDATA[гаджеты]]></category>
+            <category><![CDATA[виниловые проигрыватели]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[[recovery mode] Обзор 3D принтера Raise3D PRO2 от компании 3Dtool]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415409/</guid>
+            <link>https://habr.com/post/415409/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415409</link>
+            <description><![CDATA[Всем добрый день! 3D-принтеры Raise3D N- серии собрали множество самых почетных профильных наград во всем мире и любовь пользователей. От лица нашей компании хотим отметить, что принтеры Raise3D зарекомендовали себя как надежная техника с достойным качеством сборки и комплектующих. Однако ребята из Raise3D решили не останавливаться на достигнутом, и уже 25 апреля в США они анонсировали новые модели принтеров Raise3D Pro2 и Pro2 Plus. И сегодня к нам на обзор попал именно Raise3D Pro2. Так что заварите чашечку чая, и давайте вместе посмотрим и изучим данную модель.<br>
+<br>
+<h2>Корпус</h2><div style="text-align:center;"><img src="https://habrastorage.org/webt/bb/zy/69/bbzy69z1bs24mwtzhosaddyxb2i.jpeg" width="600"></div> <a href="https://habr.com/post/415409/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415409#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 09:43:29 GMT</pubDate>
+            <dc:creator>antonlylyk</dc:creator>
+            <category><![CDATA[3D-принтеры]]></category>
+            <category><![CDATA[Блог компании 3Dtool]]></category>
+            <category><![CDATA[3d-печать]]></category>
+            <category><![CDATA[3d-принтеры]]></category>
+            <category><![CDATA[3dtool]]></category>
+            <category><![CDATA[raise]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[Почему цены на DVD с бесплатной игрой Fortnite доходят до $450]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415399/</guid>
+            <link>https://habr.com/post/415399/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415399</link>
+            <description><![CDATA[<img src="https://habrastorage.org/webt/za/hr/t_/zahrt_5wgvzielgjvuessd7e_ze.jpeg" align="left"><a href="https://www.recode.net/2018/6/26/17502072/fortnite-revenue-game-growth-318-million">Бешеная популярность</a> мультяшного шутера <a href="https://www.epicgames.com/fortnite/ru/"><i>Fortnite</i></a> от Epic Games привела к интересным побочным эффектам. Дело в том, что эта игра распространяется <i>только в цифровом виде</i>, то есть через интернет. Версия «Королевская битва» (PvP) абсолютно бесплатна. Поэтому диски с ней — большая редкость. В прошлом году Gearbox Software совместно с Epic Games издала <a href="http://www.gearboxsoftware.com/2017/06/gearbox-publishing-teams-with-epic-games-to-bring-fortnites-storm-to-stores/">ограниченную серию таких дисков</a>, которые сразу стали желанной целью среди коллекционеров.<br>
+<br>
+Коллекционеры вообще странные люди. Кажется, они готовы платить абсолютно за всё, что существует в ограниченном количестве.<br>
+<br>
+Цены на диски того тиража доходят до <a href="https://www.ebay.com/itm/Fortnite-PlayStation-4-PS4-Physical-Disc-Brand-New-Sealed/253514757205?epid=238374460">450 долларов за один диск</a>! На фотографии слева цена 60 долларов во время прошлогодней продажи — ещё до того, как игра Fortnite приобрела сумасшедшую популярность и переписала рекорды игровой индустрии. Те диски стали раритетами.<br>
+<br>
+В чём причины популярности этой игры? Осмелюсь предположить, что главная причина — дети. Похоже, это один из первых качественных шутеров, сделанных специально для детской аудитории.<br> <a href="https://habr.com/post/415399/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415399#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 09:42:20 GMT</pubDate>
+            <dc:creator>alizar</dc:creator>
+            <category><![CDATA[Игры и игровые приставки]]></category>
+            <category><![CDATA[Fortnite]]></category>
+            <category><![CDATA[детские игры]]></category>
+            <category><![CDATA[Wolfenstein 3D]]></category>
+            <category><![CDATA[Epic Games]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[epoll и Windows IO Completion Ports: практическая разница]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415403/</guid>
+            <link>https://habr.com/post/415403/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415403</link>
+            <description><![CDATA[<h3>Введение</h3><br>
+В этой статье мы попробуем разобраться чем на практике отличается механизм epoll от портов завершения (Windows I/O Completion Port или IOCP). Это может быть интересно системным архитекторам, проектирующим высокопроизводительные сетевые сервисы или программистам, портирующим сетевой код с Windows на Linux или наоборот. <br>
+<br>
+Обе эти технологии весьма эффективны для обработки большого количества сетевых соединений. <br>
+<br>
+Они отличаются от других методов по следующим пунктам:<br>
+<br>
+<ul>
+<li>Нет ограничений (кроме общих ресурсов системы) на общее количество наблюдаемых дескрипторов и типов событий</li>
+<li>Масштабирование работает достаточно хорошо — если вы уже мониторите N дескрипторов, то переход к мониторингу N + 1 займёт очень мало времени и ресурсов</li>
+<li>Достаточно легко задействовать пул потоков для параллельной обработки происходящих событий</li>
+<li>Нет никакого смысла использовать при единичных сетевых соединениях. Все преимущества начинают проявляться при 1000+ соединений</li>
+</ul><br>
+Если перефразировать всё вышесказанное, обе данные технологии созданы для разработки сетевых сервисов, обрабатывающих множество входящих соединений от клиентов. Но в то же время между ними есть существенная разница и при разработке тех же сервисов её важно знать.<br> <a href="https://habr.com/post/415403/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415403#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 09:25:33 GMT</pubDate>
+            <dc:creator>tangro</dc:creator>
+            <category><![CDATA[Системное программирование]]></category>
+            <category><![CDATA[Сетевые технологии]]></category>
+            <category><![CDATA[Разработка под Windows]]></category>
+            <category><![CDATA[Разработка под Linux]]></category>
+            <category><![CDATA[Блог компании Инфопульс Украина]]></category>
+            <category><![CDATA[IOCP]]></category>
+            <category><![CDATA[epoll]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[[Из песочницы] Решаем проблему миллиона открытых вкладок или «помогаем железу выживать»]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415401/</guid>
+            <link>https://habr.com/post/415401/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415401</link>
+            <description><![CDATA[<p><img src="https://habrastorage.org/webt/pn/_3/7n/pn_37n_daf8ssnbb8s3qbcrnjv0.jpeg"/></p><br/>
+<p>Мы попробуем разобраться — как можно снизить нагрузку на серверное железо, обеспечив при этом максимальную производительность Web-приложения.</p><br/>
+<p>В разработке больших высоконагруженных проектов с огромным онлайном часто приходится думать, как снизить нагрузку на сервера, особенно при работе в webSocket'ами и динамически изменяемыми интерфейсами. К нам приходит <em>100500</em> пользователей и мы имеем <em>100500</em> открытых соединений по сокетам. А если каждый из них откроет по 2 вкладки — это уже *201000 соединений. <strong>А если пять?</strong></p> <a href="https://habr.com/post/415401/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415401#habracut">Читать дальше &rarr;</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 09:21:19 GMT</pubDate>
+            <dc:creator>Ravy</dc:creator>
+            <category><![CDATA[Клиентская оптимизация]]></category>
+            <category><![CDATA[Браузеры]]></category>
+            <category><![CDATA[JavaScript]]></category>
+            <category>javascript</category>
+            <category>localStorage</category>
+            <category>intercome.js</category>
+            <category>locableStorage</category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[PICASO 3D на Top 3D Expo 2018 — новый 3D-принтер, новые материалы]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415397/</guid>
+            <link>https://habr.com/post/415397/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415397</link>
+            <description><![CDATA[<img src="https://habrastorage.org/webt/xs/xz/lq/xsxzlqnlsmhzjh1facr2bkntg2u.png"><br>
+<br>
+Выступление Андрея Исупова, главы PICASO 3D, на Top 3D Expo 2018 — новые продукты компании. Смотрите видео или читайте полную расшифровку выступления.<br> <a href="https://habr.com/post/415397/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415397#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 09:06:04 GMT</pubDate>
+            <dc:creator>Top3DShop</dc:creator>
+            <category><![CDATA[3D-принтеры]]></category>
+            <category><![CDATA[Блог компании Top 3D Shop]]></category>
+            <category><![CDATA[picaso 3d]]></category>
+            <category><![CDATA[Ultran]]></category>
+            <category><![CDATA[designer x]]></category>
+            <category><![CDATA[3d-печать]]></category>
+            <category><![CDATA[3d-принтер]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[Безопасность Microsoft Office: макросы VBA]]></title>
+            <guid isPermaLink="true">https://habr.com/post/353800/</guid>
+            <link>https://habr.com/post/353800/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=353800</link>
+            <description><![CDATA[В 2016 году исследователи отметили всплеск активности, практически второе рождение, еще недавно казавшейся безнадежно устаревшей техники распространения нежелательного ПО — несущих злонамененную нагрузку макросов в документах Microsoft Office, т.н. «макровирусов».<br>
+<br>
+Самый знаменитый макровирус, Melissa, появился в марте 1999 года. Вирус поразил по-крайней мере сто тысяч компьютеров по всему миру, парализовал работу сотен компаний, ущерб экономике составил 80 миллионов долларов в одних только США.<br>
+<br>
+<img src="https://habrastorage.org/webt/zb/oo/k6/zbook6p-8zvb5uqvfbzqumrpfzm.png"><br>
+<br>
+Судя по отчетам компаний, связанных с информационной безопасностью (<a href="https://www.cisecurity.org/top-10-malware-march-2018/">например, здесь </a>), на сегодняшний день макровирусы все еще занимают верхние строчки в рейтингах по распространенности.<br>
+<br>
+Не появилось никаких способствовавших этому новых уязвимостей, как в общем-то не было никаких чисто технических предпосылок. По-видимому, распространители malware, испытывая недостаток в свежих багах, обратили свои взоры на плохо забытые (и все еще эффективные) старые.<br>
+<br>
+Почему почти через двадцать лет та же техника остается на вооружении всевозможных компьютерных злоумышленников? Попробуем разобраться.<br> <a href="https://habr.com/post/353800/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=353800#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 08:55:33 GMT</pubDate>
+            <dc:creator>ormoulu</dc:creator>
+            <category><![CDATA[Информационная безопасность]]></category>
+            <category><![CDATA[Блог компании «Digital Security»]]></category>
+            <category><![CDATA[Microsoft Office]]></category>
+            <category><![CDATA[информационная безопасность]]></category>
+            <category><![CDATA[VBA]]></category>
+            <category><![CDATA[макросы]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[[Перевод] Как работает JS: классы и наследование, транспиляция в Babel и TypeScript]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415377/</guid>
+            <link>https://habr.com/post/415377/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415377</link>
+            <description><![CDATA[<div class="spoiler"><b class="spoiler_title">[Советуем почитать] Предыдущие 14 частей цикла</b><div class="spoiler_text">Часть 1: <a href="https://habrahabr.ru/company/ruvds/blog/337042/">Обзор движка, механизмов времени выполнения, стека вызовов</a><br>
+Часть 2: <a href="https://habrahabr.ru/company/ruvds/blog/337460/">О внутреннем устройстве V8 и оптимизации кода</a><br>
+Часть 3: <a href="https://habrahabr.ru/company/ruvds/blog/338150/">Управление памятью, четыре вида утечек памяти и борьба с ними</a><br>
+Часть 4: <a href="https://habrahabr.ru/company/ruvds/blog/340508/">Цикл событий, асинхронность и пять способов улучшения кода с помощью async / await</a><br>
+Часть 5: <a href="https://habrahabr.ru/company/ruvds/blog/342346/">WebSocket и HTTP/2+SSE. Что выбрать?</a><br>
+Часть 6: <a href="https://habrahabr.ru/company/ruvds/blog/343568/">Особенности и сфера применения WebAssembly</a><br>
+Часть 7: <a href="https://habrahabr.ru/company/ruvds/blog/348424/">Веб-воркеры и пять сценариев их использования</a><br>
+Часть 8: <a href="https://habrahabr.ru/company/ruvds/blog/349858/">Сервис-воркеры</a><br>
+Часть 9: <a href="https://habrahabr.ru/company/ruvds/blog/350486/">Веб push-уведомления</a><br>
+Часть 10: <a href="https://habrahabr.ru/company/ruvds/blog/351256/">Отслеживание изменений в DOM с помощью MutationObserver</a><br>
+Часть 11: <a href="https://habrahabr.ru/company/ruvds/blog/351802/">Движки рендеринга веб-страниц и советы по оптимизации их производительности</a><br>
+Часть 12: <a href="https://habr.com/company/ruvds/blog/354070/">Сетевая подсистема браузеров, оптимизация её производительности и безопасности</a><br>
+Часть 12: <a href="https://habr.com/company/ruvds/blog/354070/">Сетевая подсистема браузеров, оптимизация её производительности и безопасности</a><br>
+Часть 13: <a href="https://habr.com/company/ruvds/blog/354438/">Анимация средствами CSS и JavaScript</a><br>
+Часть 14: <a href="https://habr.com/company/ruvds/blog/415269/">Как работает JS: абстрактные синтаксические деревья, парсинг и его оптимизация</a></div></div><br>
+В наши дни использование классов являются одним из самых популярных способов структурирования программных проектов. Этот подход к программированию применяется и в JavaScript. Сегодня мы публикуем перевод 15 части серии материалов, посвящённых экосистеме JS. В этой статье речь пойдёт о различных подходах к реализации классов в JavaScript, о механизмах наследования и о транспиляции. Начнём мы с рассказа о том, как работают прототипы и с анализа различных способов имитации наследования, основанного на классах, в популярных библиотеках. Далее мы поговорим о том, как, благодаря транспиляции, можно писать JS-программы, использующие возможности, которые либо отсутствуют в языке, либо, хотя и существуют в виде новых стандартов или предложений, находящихся на разных стадиях согласования, пока не реализованы в JS-движках. В частности, речь пойдёт о Babel и TypeScript и о классах ECMAScript 2015. После этого мы разберём несколько примеров, демонстрирующих особенности внутренней реализации классов в JS-движке V8.<br>
+<a href="https://habr.com/company/ruvds/blog/415377/"><div style="text-align:center;"><img src="https://habrastorage.org/getpro/habr/post_images/196/736/c87/196736c87449034c2354db7c52f1cd08.png" alt="image"></div></a> <a href="https://habr.com/post/415377/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415377#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 08:34:43 GMT</pubDate>
+            <dc:creator>ru_vds</dc:creator>
+            <category><![CDATA[Разработка веб-сайтов]]></category>
+            <category><![CDATA[JavaScript]]></category>
+            <category><![CDATA[Блог компании RUVDS.com]]></category>
+            <category>JavaScript</category>
+            <category>разработка</category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[Каждый разработчик желает знать, как попасть в фичеринг]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415387/</guid>
+            <link>https://habr.com/post/415387/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415387</link>
+            <description><![CDATA[Сегодня мы затронем тему, которая волнует каждого причастного к разработке приложений под iOS — попадание в подборки магазинов экосистемы Apple. В сентябре прошлого года <a href="https://habr.com/company/everydaytools/blog/336356/">произошло глобальное обновление App Store</a>, в связи с которым у разработчиков появилось больше шансов привлечь (доброкачественное) внимание администрации, завоевать новую аудиторию, увеличить прибыль, поднять конверсию и просто выйти в тренд.<br>
+<br>
+<div style="text-align:center;"><img src="https://habrastorage.org/webt/bt/m3/7l/btm37lb_41cr7zakom-ahhwc7ha.jpeg"></div> <a href="https://habr.com/post/415387/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415387#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 08:21:06 GMT</pubDate>
+            <dc:creator>mixa_medved</dc:creator>
+            <category><![CDATA[Продвижение игр]]></category>
+            <category><![CDATA[Повышение конверсии]]></category>
+            <category><![CDATA[Монетизация мобильных приложений]]></category>
+            <category><![CDATA[Интернет-маркетинг]]></category>
+            <category><![CDATA[Блог компании Everyday Tools]]></category>
+            <category><![CDATA[app store]]></category>
+            <category><![CDATA[apple]]></category>
+            <category><![CDATA[продвижение приложений]]></category>
+            <category><![CDATA[продвижение мобильных приложений]]></category>
+            <category><![CDATA[продвижение игр]]></category>
+            <category><![CDATA[featuring]]></category>
+            <category><![CDATA[фичеринг]]></category>
+            <category><![CDATA[мобильные маркеты]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[Пульсация экранов телевизоров]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415395/</guid>
+            <link>https://habr.com/post/415395/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415395</link>
+            <description><![CDATA[У подавляющего большинства современных телевизоров экраны мерцают, причём уровень пульсации составляет 100% (экран полностью гаснет и загорается). Это может приводить к усталости глаз, головным болям и обострению нервных заболеваний.<br>
+<br>
+<div style="text-align:center;"><img src="https://habrastorage.org/getpro/habr/post_images/96c/b4a/103/96cb4a103b9acc02455b0f2993927ae7.jpg"></div><br> <a href="https://habr.com/post/415395/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415395#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 08:15:56 GMT</pubDate>
+            <dc:creator>AlexeyNadezhin</dc:creator>
+            <category><![CDATA[Мониторы и ТВ]]></category>
+            <category><![CDATA[Здоровье гика]]></category>
+            <category><![CDATA[Гаджеты]]></category>
+            <category><![CDATA[Блог компании LampTest]]></category>
+            <category><![CDATA[Пульсация]]></category>
+            <category><![CDATA[Мерцание]]></category>
+            <category><![CDATA[ШИМ]]></category>
+            <category><![CDATA[Телевизоры]]></category>
+            <category><![CDATA[ЖК]]></category>
+            <category><![CDATA[TFT]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[Спиновое состояние «твердое тело» в искусственной сотовой решетке]]></title>
+            <guid isPermaLink="true">https://habr.com/post/414167/</guid>
+            <link>https://habr.com/post/414167/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=414167</link>
+            <description><![CDATA[<img src="https://habrastorage.org/webt/uk/tn/6p/uktn6pjesntcuwddv7hidwkqwio.jpeg"><br>
+<br>
+В определенных научных кругах ведется дискуссия касательно магнитной корреляции при низких температурах в двумерной искусственной магнитной сотовой решетке. Теоретики утверждают, что подобная система способна демонстрировать формирование твердотельного состояния с нулевой спиновой <i>энтропией*</i>. Однако на практике подобных свойств пока не было обнаружено. Данное исследование делает уверенный шаг к пониманию вышеуказанных явлений. Что именно удалось узнать исследователям, мы поймем благодаря их отчету. Поехали. <a href="https://habr.com/post/414167/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=414167#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 08:00:01 GMT</pubDate>
+            <dc:creator>Dmytro_Kikot</dc:creator>
+            <category><![CDATA[Химия]]></category>
+            <category><![CDATA[Физика]]></category>
+            <category><![CDATA[Научно-популярное]]></category>
+            <category><![CDATA[Блог компании ua-hosting.company]]></category>
+            <category><![CDATA[сотовая решетка]]></category>
+            <category><![CDATA[электроны]]></category>
+            <category><![CDATA[спин]]></category>
+            <category><![CDATA[магнетизм]]></category>
+            <category><![CDATA[термодинамика]]></category>
+            <category><![CDATA[физика элементарных частиц]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[Началась сертификация устройств WPA3: слабые пароли стали более безопасными]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415391/</guid>
+            <link>https://habr.com/post/415391/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415391</link>
+            <description><![CDATA[<img src="https://habrastorage.org/webt/uv/dy/-9/uvdy-9igdxjwhses3pvlul6ltxo.png" align="left">25 июня 2018 года Wi-Fi Alliance <a href="https://www.wi-fi.org/news-events/newsroom/wi-fi-alliance-introduces-wi-fi-certified-wpa3-security">официально представил</a> программу сертификации <a href="https://www.wi-fi.org/discover-wi-fi/security">Wi-Fi CERTIFIED WPA3</a>. Это первое за последние 14 лет обновление протоколов безопасности Wi-Fi.<br>
+<br>
+По заявлению альянса, WPA3 (Wi-Fi Protected Access 3) «добавляет новые функции для упрощения безопасности Wi-Fi, обеспечения более надёжной аутентификации, повышения криптографической стойкости для высокочувствительных рынков данных и обеспечения отказоустойчивости критически важных сетей». Во всех сетях WPA3:<br>
+<br>
+<ul>
+<li>Используются последние методы безопасности</li>
+<li>Запрещены устаревшие протоколы</li>
+<li>Обязательна функция защиты управляющих фреймов от компрометации PMF (Protected Management Frames)</li>
+</ul> <a href="https://habr.com/post/415391/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415391#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:40:40 GMT</pubDate>
+            <dc:creator>GlobalSign_admin</dc:creator>
+            <category><![CDATA[Стандарты связи]]></category>
+            <category><![CDATA[Сетевое оборудование]]></category>
+            <category><![CDATA[Криптография]]></category>
+            <category><![CDATA[Информационная безопасность]]></category>
+            <category><![CDATA[Блог компании GlobalSign]]></category>
+            <category><![CDATA[WPA3]]></category>
+            <category><![CDATA[PSK]]></category>
+            <category><![CDATA[SAE]]></category>
+            <category><![CDATA[слабые пароли]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[Продукт на .NET, помогающий спасать жизни]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415017/</guid>
+            <link>https://habr.com/post/415017/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415017</link>
+            <description><![CDATA[В некоторых жизненных ситуациях нужно действовать очень быстро. Иногда это условие невыполнимо: например, просто невозможно без огромного везения за очень короткое время найти человека с редкой группой крови, так еще и готового ей поделиться. Ребята создали продукт под названием DonorUA, который действительно помогает спасать жизни при помощи чат-бота. Подробнее под катом. <br>
+<br>
+<img src="https://habrastorage.org/webt/ts/pu/7e/tspu7ey2xpsgz761bal93m1tmdg.jpeg"> <a href="https://habr.com/post/415017/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415017#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:34:42 GMT</pubDate>
+            <dc:creator>sahsAGU</dc:creator>
+            <category><![CDATA[Социальные сети и сообщества]]></category>
+            <category><![CDATA[Машинное обучение]]></category>
+            <category><![CDATA[Искусственный интеллект]]></category>
+            <category><![CDATA[.NET]]></category>
+            <category><![CDATA[Блог компании Microsoft]]></category>
+            <category><![CDATA[microsoft]]></category>
+            <category><![CDATA[azure]]></category>
+            <category><![CDATA[xamarin]]></category>
+            <category><![CDATA[облако]]></category>
+            <category><![CDATA[ии]]></category>
+            <category><![CDATA[ai]]></category>
+            <category><![CDATA[ml]]></category>
+            <category><![CDATA[bot]]></category>
+            <category><![CDATA[chat bot]]></category>
+            <category><![CDATA[donor]]></category>
+            <category><![CDATA[донор]]></category>
+            <category><![CDATA[кровь]]></category>
+            <category><![CDATA[социальные сети]]></category>
+            <category><![CDATA[social media]]></category>
+            <category><![CDATA[youscan]]></category>
+            <category><![CDATA[luis]]></category>
+            <category><![CDATA[dgpr]]></category>
+            <category><![CDATA[facebook]]></category>
+            <category><![CDATA[skype]]></category>
+            <category><![CDATA[android]]></category>
+            <category><![CDATA[ios]]></category>
+            <category><![CDATA[api]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[Сегодня заработает платёжная система «ВКонтакте»]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415389/</guid>
+            <link>https://habr.com/post/415389/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415389</link>
+            <description><![CDATA[Сегодня 27 июня социальная сеть «ВКонтакте» запустит собственную платёжную систему VK Pay, <a href="https://www.rbc.ru/technology_and_media/27/06/2018/5b3245459a79473cfd1d2d46">сообщил</a> РБК со ссылкой на представителей компании. Запуск состоится примерно в 12:00 по московскому времени. В первое время все платежи в системе можно будет проводить <b>без комиссии</b>. Также система не будет брать комиссию за ввод и вывод средств.<br>
+<br>
+Сейчас компании Mail.ru (владелец «Вконтакте») важно сформировать большую аудиторию пользователей, привлечь на платформу малый и средний бизнес, а потом можно ввести комиссию для всех пользователей. «Сейчас монетизация не является приоритетом. Нам важно создать продукт и масштабировать его на широкую аудиторию», — сказал представитель социальной сети в комментарии РБК.<br> <a href="https://habr.com/post/415389/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415389#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:33:11 GMT</pubDate>
+            <dc:creator>alizar</dc:creator>
+            <category><![CDATA[Финансы в IT]]></category>
+            <category><![CDATA[Социальные сети и сообщества]]></category>
+            <category><![CDATA[Вконтакте]]></category>
+            <category><![CDATA[платежная система]]></category>
+            <category><![CDATA[VK Pay]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[8 способов улучшить визуализацию данных]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415257/</guid>
+            <link>https://habr.com/post/415257/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415257</link>
+            <description><![CDATA[<img src="https://habrastorage.org/webt/n8/ao/ks/n8aoks3oobbanuqb2c1vjaqvbke.png"><br>
+<br>
+При работе с данными важно понимать, как лучше и эффективнее представить их вашей целевой аудитории. Не просто делать графики ради графиков, сделать так, чтобы за несколько секунд человек смог понять, что изображено на графике, что вы хотите этим сказать и какой вывод из него можно сделать. <br>
+<br>
+Существует множество различных трюков, делающих визуализацию понятной, краткой и информативной. Но зачастую проблема кроется в игнорировании даже самых очевидных правил форматирования, поэтому эту статью мы хотим посвятить 8-ми базовым способам улучшения визуализации данных, которые повысят общую читаемость и понимание ваших графиков и диаграмм.<br> <a href="https://habr.com/post/415257/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415257#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:32:05 GMT</pubDate>
+            <dc:creator>JuliaKoroleva</dc:creator>
+            <category><![CDATA[Инфографика]]></category>
+            <category><![CDATA[Визуализация данных]]></category>
+            <category><![CDATA[Блог компании TS Solution]]></category>
+            <category><![CDATA[визуализация данных]]></category>
+            <category><![CDATA[splunk]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[Play with Kubernetes — сервис для практического знакомства с K8s]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415381/</guid>
+            <link>https://habr.com/post/415381/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415381</link>
+            <description><![CDATA[Около года мы <a href="https://habr.com/company/flant/blog/334470/">писали</a> об интересном онлайн-сервисе для самообразования в мире контейнеров — <a href="https://labs.play-with-docker.com/">Play with Docker</a>. Его авторы, поддерживаемые компанией Docker Inc, не стояли на месте и последовали за трендами, что мы наблюдаем не только в «узком кругу» Docker, но и в индустрии в целом: они запустили новый аналогичный сервис, посвящённый уже Kubernetes. Итак, встречайте Play with Kubernetes (PWK)!<br>
+<br>
+<a href="https://labs.play-with-k8s.com/"><div style="text-align:center;"><img src="https://habrastorage.org/webt/6q/wl/wl/6qwlwl4fa387ccs2sgoiamvjolk.png"></div></a> <a href="https://habr.com/post/415381/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415381#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:22:24 GMT</pubDate>
+            <dc:creator>shurup</dc:creator>
+            <category><![CDATA[Системное администрирование]]></category>
+            <category><![CDATA[Серверное администрирование]]></category>
+            <category><![CDATA[DevOps]]></category>
+            <category><![CDATA[Блог компании Флант]]></category>
+            <category><![CDATA[Kubernetes]]></category>
+            <category><![CDATA[Docker]]></category>
+        </item>
+
+
+        <item>
+            <title><![CDATA[Дипломные работы выпускников Технопроектов, весна 2018]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415323/</guid>
+            <link>https://habr.com/post/415323/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415323</link>
+            <description><![CDATA[<img src="https://habrastorage.org/getpro/habr/post_images/b63/a42/367/b63a423673e94d2f94fa1b26f626be8b.jpg"><br>
+<br>
+Дважды в год мы набираем студентов в наши Технопроекты, и дважды в год выпускаем лучших из них только после защиты дипломного проекта, доказывающего, что не зря они два года впитывали IT-премудрости. 22 мая прошла очередная защита, на которой кроме выпускников Технопарка (МГТУ), Технотрека (МФТИ) и Техноатома (МИФИ) впервые выступали и ребята из нашего Технополиса (Санкт-Петербургский политехнический университет им. Петра Великого). А еще новшеством этой защиты стали 4 выпускных проекта, которые делали совместно студенты из российских ВУЗов и студенты Worcester Polytechnic Institute (Массачусетс, США). И сегодня мы расскажем о шести самых интересных выпускных проектах этой защиты.<br> <a href="https://habr.com/post/415323/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415323#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:20:34 GMT</pubDate>
+            <dc:creator>Olga_ol</dc:creator>
+            <category><![CDATA[Учебный процесс в IT]]></category>
+            <category><![CDATA[Разработка мобильных приложений]]></category>
+            <category><![CDATA[Карьера в IT-индустрии]]></category>
+            <category><![CDATA[Блог компании Mail.Ru Group]]></category>
+            <category><![CDATA[разработка]]></category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[[Перевод] «Мне нужно было охранять пустую комнату»: появление бессмысленных рабочих мест]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415209/</guid>
+            <link>https://habr.com/post/415209/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415209</link>
+            <description><![CDATA[<h3>Копирование и вставка текстов электронных писем. Изобретение бессмысленных задач для других. Создание видимости бурной деятельности. Почему так много людей считают свою работу совершенно ненужной?</h3><br>
+<img src="https://habrastorage.org/getpro/habr/post_images/519/29f/368/51929f368cf4a8af53eb3d529ae06795.jpg"><br>
+<i>Пристрелите меня: приносит ли ваша работа кому-то пользу?</i><br>
+<br>
+Однажды у меня в офисе упали полки. В результате книги оказались разбросанными по полу, а над моим столом навис рваный кусок металлической фермы, который раньше держал стеллаж. Я профессор антропологии в университете. Через час ко мне пришёл плотник, чтобы изучить повреждения, и угрюмо сообщил, что поскольку на полу разбросаны книги, правила безопасности запрещают ему входить в комнату и что-то там делать. Мне нужно было собрать все книги в стопки, и больше ничего не делать, после чего он придёт снова при первой возможности.<br>
+<br>
+Плотник так и не пришёл. Каждый день кто-нибудь из антропологического отдела звонил, часто несколько раз, чтобы узнать о судьбе плотника, у которого всегда находилась какая-то более срочная работа. К концу недели стало ясно, что весь комплекс зданий обслуживает один человек, чья работа состояла только в том, чтобы извиняться за то, что плотник не приходит. Он был милым человеком. И всё же довольно сложно предположить, что ему нравилась его работа.<br> <a href="https://habr.com/post/415209/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415209#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 07:00:01 GMT</pubDate>
+            <dc:creator>SLY_G</dc:creator>
+            <category><![CDATA[Карьера в IT-индустрии]]></category>
+            <category>работа</category>
+            <category>зарплата</category>
+            <category>полезность</category>
+        </item>
+
+
+        <item>
+            <title>
+                <![CDATA[Ситуация с DCIM: как изменилось управление инфраструктурой ЦОД за последние годы]]></title>
+            <guid isPermaLink="true">https://habr.com/post/415385/</guid>
+            <link>https://habr.com/post/415385/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415385</link>
+            <description><![CDATA[Долгое время одним из самых популярных инструментов для управления дата-центром <a href="http://www.datacenterknowledge.com/archives/2015/10/30/what-dcim-tools-you-mean-spreadsheets-and-tape-measure">оставались</a> электронные таблицы Excel, в которых менеджеры держали всю информацию о состоянии инфраструктуры и отслеживали свои задачи. По большей части это было связано с неэффективностью и громоздкостью существующих <a href="https://en.wikipedia.org/wiki/Data_center_infrastructure_management">DCIM</a>-решений — программных продуктов, следящих за работой компонентов ЦОД.<br>
+<br>
+Однако рост популярности облачных инфраструктур за последние несколько лет привел к появлению DCIM-решений нового поколения, которые все чаще используются в коммерческих проектах. О трендах, которые подтолкнули развитие DCIM, и о прогнозах экспертов отрасли, говорим под катом.<br>
+<br>
+<a href="https://habr.com/company/it-grad/blog/415385/"><img src="https://habrastorage.org/webt/lc/so/k0/lcsok0zhlwjdjox6gkohxsdelic.jpeg"></a> <a href="https://habr.com/post/415385/?utm_source=habrahabr&amp;utm_medium=rss&amp;utm_campaign=415385#habracut">Читать дальше →</a>]]></description>
+
+            <pubDate>Wed, 27 Jun 2018 06:35:43 GMT</pubDate>
+            <dc:creator>it_man</dc:creator>
+            <category><![CDATA[IT-инфраструктура]]></category>
+            <category><![CDATA[Блог компании ИТ-ГРАД]]></category>
+            <category><![CDATA[ит-град]]></category>
+            <category><![CDATA[dcim]]></category>
+            <category><![CDATA[управление дата-центром]]></category>
+        </item>
+
+
+    </channel>
+</rss>
