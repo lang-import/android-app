@@ -4,28 +4,28 @@ import android.content.Context
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.simpleframework.xml.Element
+import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import org.simpleframework.xml.core.Persister
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
 
 @Root(name = "item", strict = false)
-data class Item(@field:Element(name = "title",required = false) var title: String = "",
-                @field:Element(name = "link",required = false) var link: String = "",
-                @field:Element(name="description", required = false) var summary: String = "")
+data class Item(@field:Element(name = "title", required = false) var title: String = "",
+                @field:Element(name = "link", required = false) var link: String = "",
+                @field:Element(name = "description", required = false) var summary: String = "")
 
 
-@Root(name = "channel",strict = false)
+@Root(name = "channel", strict = false)
 data class Channel(@field:Element(name = "title") var title: String = "",
-                   @field:Element(name = "item") var item: Array<Item> = arrayOf())
+                   @field:ElementList(name = "item", inline=true) var item: List<Item> = mutableListOf<Item>())
 
-@Root(name = "rss",strict = false)
+@Root(name = "rss", strict = false)
 data class Feed(@field:Element(name = "channel") var channel: Channel = Channel())
 
 
-
-class FeedReader(val url: String, val context: Context) {
-    private val feedParserPool = Executors.newCachedThreadPool()
+class FeedReader(val url: String, context: Context) {
+    private val parser = FeedParser()
     private val queue = Volley.newRequestQueue(context)
 
     fun fetch(): CompletableFuture<Feed> {
@@ -37,10 +37,15 @@ class FeedReader(val url: String, val context: Context) {
             cf.completeExceptionally(it)
         }))
 
-        return cf.thenCompose(this::parseContent)
+        return cf.thenCompose(parser::parseContent)
     }
 
-    private fun parseContent(content: String): CompletableFuture<Feed> {
+
+}
+
+class FeedParser {
+    private val feedParserPool = Executors.newCachedThreadPool()
+    fun parseContent(content: String): CompletableFuture<Feed> {
         val cf = CompletableFuture<Feed>()
         feedParserPool.submit {
             val serializer = Persister()
