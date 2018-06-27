@@ -9,17 +9,20 @@ import org.simpleframework.xml.core.Persister
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
 
-@Root(strict = false)
-data class Item(@Element var title: String = "",
-                @Element var link: String = "",
-                @Element var summary: String = "")
+@Root(name = "item", strict = false)
+data class Item(@field:Element(name = "title",required = false) var title: String = "",
+                @field:Element(name = "link",required = false) var link: String = "",
+                @field:Element(name="description", required = false) var summary: String = "")
 
-@Root(strict = false)
-data class Channel(@Element var title: String = "",
-                   @Element var item: Array<Item> = arrayOf())
 
-@Root(strict = false)
-data class Feed(@Element var channel: Channel = Channel())
+@Root(name = "channel",strict = false)
+data class Channel(@field:Element(name = "title") var title: String = "",
+                   @field:Element(name = "item") var item: Array<Item> = arrayOf())
+
+@Root(name = "rss",strict = false)
+data class Feed(@field:Element(name = "channel") var channel: Channel = Channel())
+
+
 
 class FeedReader(val url: String, val context: Context) {
     private val feedParserPool = Executors.newCachedThreadPool()
