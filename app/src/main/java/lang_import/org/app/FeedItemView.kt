@@ -3,15 +3,7 @@ package lang_import.org.app
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.TextPaint
-import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 
@@ -30,8 +22,8 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
                 baggage.putString("discript",feedItem.summary)
                 baggage.putString("title",feedItem.title)
 
-                Dialog(context).setContentView(R.layout.second_activity)
-                val intent = Intent(context,SecondActivity::class.java)
+                Dialog(context).setContentView(R.layout.article_activity)
+                val intent = Intent(context,ArticleActivity::class.java)
                 intent.putExtras(baggage)
                 context.startActivity(intent)
             }

@@ -7,12 +7,12 @@ import android.support.v7.widget.RecyclerView
 import android.widget.TextView
 import android.text.method.ScrollingMovementMethod
 
-class SecondActivity : AppCompatActivity() {
+class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.second_activity)
+        setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
         val activityText = findViewById<TextView>(R.id.fullDicriptTextBlock)
 
@@ -38,11 +38,12 @@ class SecondActivity : AppCompatActivity() {
         //TODO env.hashMap
         val test_map = HashMap<String, String>()
         test_map.put("новости", "news")
-        
+
         var res = txt
         for (key in test_map.keys) {
-            var translate = test_map.get(key).toString()
-            res = res.replace(" $key ", " $translate ")
+            val translate = test_map.get(key).toString().toLowerCase()
+            val lKey = key.toLowerCase()
+            res = res.replace(" $lKey ", " $translate ")
         }
         return res
     }
