@@ -1,11 +1,10 @@
 package lang_import.org.app
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.TextView
-import android.text.method.ScrollingMovementMethod
+import android.webkit.WebView
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -14,39 +13,46 @@ class ArticleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
-        val activityText = findViewById<TextView>(R.id.fullDicriptTextBlock)
+        val webView = findViewById<WebView>(R.id.article_description)
 
         setTitle(intent.extras.getString("title"))
 
-        var readedTxt = clearText(intent.extras.getString("discript"))
-        readedTxt = importLang(readedTxt)
-        activityText.setText(readedTxt)
-        activityText.setMovementMethod(ScrollingMovementMethod())
+        var readedTxt = importLang(clearText(intent.extras.getString("discript")))
+        readedTxt = "<html><body>${readedTxt}</body></html>"
+        webView.settings.javaScriptEnabled = false
+        webView.loadDataWithBaseURL(null, readedTxt, "text/html", "UTF-8", null)
     }
 
     fun clearText(txt: String): String {
-        val lst = mutableListOf("<img src=\"", "<a href=\"", "\">", "<br>", "<h2>", "<h3>", "</h2>",
-                "</h3>", "</a>", "<i>", "</i>", "<b>", "</b>")
-        var res = txt
-        for (item in lst) {
-            res = res.replace(item, " ")
-        }
-        return res
+        return fixImg(txt)
     }
+
 
     fun importLang(txt: String): String {
-        //TODO env.hashMap
-        val test_map = HashMap<String, String>()
-        test_map.put("новости", "news")
+        var rep = txt
+        //TODO: customize part
+        val part = 1
 
-        var res = txt
-        for (key in test_map.keys) {
-            val translate = test_map.get(key).toString().toLowerCase()
-            val lKey = key.toLowerCase()
-            res = res.replace(" $lKey ", " $translate ")
+        val words = "\\w+".toRegex().findAll(txt).map({ it.value }).sorted().distinct().toList()
+        val toReplace = words.takeLast((words.size * part).toInt())
+
+        //TODO: customize language(s)
+        toReplace.forEach {
+            defaultProvider.Translate("", it.toLowerCase(), "").ifPresent { newWord ->
+                if (it[0] == it[0].toUpperCase()) {
+                    rep = rep.replace(it, newWord.capitalize())
+                } else {
+                    rep = rep.replace(it, newWord)
+                }
+            }
         }
-        return res
+        return rep
     }
 
 
+}
+
+val imgPattern = "\\<img.*?src=\"([^\"]+)\".*?\\>".toRegex()
+fun fixImg(txt: String): String {
+    return imgPattern.replace(txt, "<img src=\"$1\" style=\"width: 100%; height: auto\" />")
 }
