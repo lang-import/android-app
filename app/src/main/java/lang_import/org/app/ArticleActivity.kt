@@ -15,6 +15,7 @@ class ArticleActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
         val webView = findViewById<WebView>(R.id.article_description)
 
+        //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
 
         var readedTxt = importLang(clearText(intent.extras.getString("discript")))
@@ -48,7 +49,6 @@ class ArticleActivity : AppCompatActivity() {
         }
         return rep
     }
-
 
 }
 

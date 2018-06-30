@@ -4,12 +4,16 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.widget.TextView
-import android.support.v7.widget.Toolbar
 import java.util.logging.Logger
 
-class ReaderActivity : AppCompatActivity() {
+import android.content.Context
+import android.graphics.Color
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_reader.*
+
+class ReaderActivity : AppCompatActivity(){
     val reader by lazy { FeedReader("https://habr.com/rss/all/", this) }
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -22,9 +26,38 @@ class ReaderActivity : AppCompatActivity() {
 
         viewManager = LinearLayoutManager(this)
 
+        setSupportActionBar(toolbar)
+
+        // Side menu
+        val drawerToggle:ActionBarDrawerToggle = object : ActionBarDrawerToggle(
+                this,
+                drawer_layout,
+                toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close
+        ){}
+        drawerToggle.isDrawerIndicatorEnabled = true
+        drawer_layout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        // draft actions
+        navigation_view.setNavigationItemSelectedListener{
+            when (it.itemId){
+                R.id.action_lang -> toast("Меню настроек словарей")
+                R.id.action_conf -> toast("Меню общих настроек")
+                R.id.action_wcolor ->{drawer_layout.setBackgroundColor(Color.WHITE)}
+                R.id.action_bcolor ->{drawer_layout.setBackgroundColor(Color.BLACK)}
+
+            }
+            drawer_layout.closeDrawer(GravityCompat.START)
+            true
+        }
 
     }
 
+    private fun Context.toast(message:String){
+        Toast.makeText(applicationContext,message,Toast.LENGTH_SHORT).show()
+    }
 
     fun update() {
         setTitle("loading ${reader.url}...")
@@ -51,8 +84,7 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     fun setTitle(text: String) {
-        val toolbar = findViewById<View>(R.id.action_bar) as Toolbar
-        val textView = toolbar.getChildAt(0) as TextView
-        textView.text = text
+        val actionBar = supportActionBar
+        actionBar?.title = text
     }
 }
