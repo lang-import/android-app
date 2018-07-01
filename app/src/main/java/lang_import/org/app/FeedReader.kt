@@ -58,5 +58,4 @@ class FeedParser {
         }
         return cf
     }
-
 }

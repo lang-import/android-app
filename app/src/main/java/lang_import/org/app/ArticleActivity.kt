@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.webkit.WebView
+import java.util.concurrent.CompletableFuture
+import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -18,10 +21,19 @@ class ArticleActivity : AppCompatActivity() {
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
 
-        var readedTxt = importLang(clearText(intent.extras.getString("discript")))
-        readedTxt = "<html><body>${readedTxt}</body></html>"
-        webView.settings.javaScriptEnabled = false
-        webView.loadDataWithBaseURL(null, readedTxt, "text/html", "UTF-8", null)
+        importLang(clearText(intent.extras.getString("discript"))).whenComplete { readedTxt, ex ->
+            if (ex != null) {
+                Log.e("import", "translate", ex)
+                return@whenComplete
+            }
+            val content = "<html><body>${readedTxt}</body></html>"
+            runOnUiThread {
+                webView.settings.javaScriptEnabled = false
+                webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
+            }
+        }
+
+
     }
 
     fun clearText(txt: String): String {
@@ -29,25 +41,26 @@ class ArticleActivity : AppCompatActivity() {
     }
 
 
-    fun importLang(txt: String): String {
+    fun importLang(txt: String): CompletableFuture<String> {
         var rep = txt
         //TODO: customize part
-        val part = 1
+        val part = 0.1 // 10%
 
         val words = "\\w+".toRegex().findAll(txt).map({ it.value }).sorted().distinct().toList()
         val toReplace = words.takeLast((words.size * part).toInt())
 
         //TODO: customize language(s)
-        toReplace.forEach {
-            defaultProvider.Translate("", it.toLowerCase(), "").ifPresent { newWord ->
-                if (it[0] == it[0].toUpperCase()) {
-                    rep = rep.replace(it, newWord.capitalize())
-                } else {
-                    rep = rep.replace(it, newWord)
+        val lock = Object()
+        return CompletableFuture.allOf(*toReplace.map { originalWord ->
+            defaultProvider.Translate(this, "", originalWord.toLowerCase(), "en").thenApply {
+                synchronized(lock) {
+                    Log.i("replace", "$originalWord -> $it")
+                    rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$it$3")
                 }
             }
+        }.toTypedArray()).thenApply {
+            rep
         }
-        return rep
     }
 
 }
