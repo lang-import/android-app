@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_lang"
+        android:title="@string/action_lang"
+        />
+    <item
+        android:id="@+id/action_conf"
+        android:title="@string/action_conf"
+        />
+    <item
+        android:id="@+id/action_wcolor"
+        android:title="@string/action_wcolor"
+        />
+    <item
+        android:id="@+id/action_bcolor"
+        android:title="@string/action_bcolor"
+        />
+</menu>
