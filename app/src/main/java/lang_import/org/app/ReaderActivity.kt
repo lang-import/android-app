@@ -44,6 +44,11 @@ class ReaderActivity : AppCompatActivity(){
             //TODO logic
         }
 
+        fun openConfigMenu(){
+            val intent = Intent(this, ConfigActivity::class.java)
+            startActivity(intent)
+        }
+
         fun openDictsMenu(){
             //TODO read dicts from file
             //test dict for develop
@@ -64,7 +69,7 @@ class ReaderActivity : AppCompatActivity(){
         navigation_view.setNavigationItemSelectedListener{
             when (it.itemId){
                 R.id.action_lang -> openDictsMenu()
-                R.id.action_conf -> toast("Меню общих настроек")
+                R.id.action_conf -> openConfigMenu() // toast("Меню общих настроек")
                 R.id.action_wcolor ->{drawer_layout.setBackgroundColor(Color.WHITE)}
                 R.id.action_bcolor ->{drawer_layout.setBackgroundColor(Color.BLACK)}
 

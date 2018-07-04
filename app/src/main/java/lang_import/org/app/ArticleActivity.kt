@@ -1,6 +1,7 @@
 package lang_import.org.app
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,9 +12,12 @@ import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
+    var part=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val env = PreferenceManager.getDefaultSharedPreferences(this)
+        part = env.getInt("part", 0)
         setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
         val webView = findViewById<WebView>(R.id.article_description)
@@ -43,11 +47,10 @@ class ArticleActivity : AppCompatActivity() {
 
     fun importLang(txt: String): CompletableFuture<String> {
         var rep = txt
-        //TODO: customize part
-        val part = 0.1 // 10%
+        val factor = part.toDouble()/100
 
         val words = "\\w+".toRegex().findAll(txt).map({ it.value }).sorted().distinct().toList()
-        val toReplace = words.takeLast((words.size * part).toInt())
+        val toReplace = words.takeLast((words.size * factor).toInt())
 
         //TODO: customize language(s)
         val lock = Object()
