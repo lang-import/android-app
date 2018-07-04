@@ -1,18 +1,23 @@
 package lang_import.org.app
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.LinearLayout
+import android.widget.TextView
 import java.util.concurrent.CompletableFuture
 import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
-    var part=0
+    var part = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +29,9 @@ class ArticleActivity : AppCompatActivity() {
 
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
-
+        status = "loading..."
         importLang(clearText(intent.extras.getString("discript"))).whenComplete { readedTxt, ex ->
+            status = "preparing..."
             if (ex != null) {
                 Log.e("import", "translate", ex)
                 return@whenComplete
@@ -35,6 +41,7 @@ class ArticleActivity : AppCompatActivity() {
                 webView.settings.javaScriptEnabled = false
                 webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
             }
+            done()
         }
 
 
@@ -47,11 +54,11 @@ class ArticleActivity : AppCompatActivity() {
 
     fun importLang(txt: String): CompletableFuture<String> {
         var rep = txt
-        val factor = part.toDouble()/100
+        val factor = part.toDouble() / 100
 
-        val words = "\\w+".toRegex().findAll(txt).map({ it.value }).sorted().distinct().toList()
+        val words = "\\w+".toRegex().findAll(txt).map({ it.value }).sorted().distinct().toList().shuffled()
         val toReplace = words.takeLast((words.size * factor).toInt())
-
+        status = "translating..."
         //TODO: customize language(s)
         val lock = Object()
         return CompletableFuture.allOf(*toReplace.map { originalWord ->
@@ -65,6 +72,23 @@ class ArticleActivity : AppCompatActivity() {
             rep
         }
     }
+
+    var status: CharSequence = ""
+        set(d) {
+            val view = findViewById<TextView>(R.id.article_progress_status)
+            runOnUiThread {
+                view.text = d
+                findViewById<ViewGroup>(R.id.article_progress).visibility = View.VISIBLE
+            }
+
+        }
+
+    fun done() {
+        runOnUiThread {
+            findViewById<ViewGroup>(R.id.article_progress).visibility = View.GONE
+        }
+    }
+    //get() = findViewById<TextView>(R.id.article_progress_status).text
 
 }
 
