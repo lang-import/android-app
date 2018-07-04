@@ -6,4 +6,13 @@
     <string name="action_conf">Общие настройки</string>
     <string name="action_wcolor">Белый фон</string>
     <string name="action_bcolor">Черный фон</string>
+    <string-array name="langs">
+        <item>en</item>
+        <item>tl</item>
+        <item>ja</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>ru</item>
+        <item>de</item>
+    </string-array>
 </resources>
