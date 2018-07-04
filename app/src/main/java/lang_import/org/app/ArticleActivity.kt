@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.LinearLayout
 import android.widget.TextView
+import org.jsoup.Jsoup
 import java.util.concurrent.CompletableFuture
 import java.util.regex.Pattern
 
@@ -56,16 +57,20 @@ class ArticleActivity : AppCompatActivity() {
         var rep = txt
         val factor = part.toDouble() / 100
 
-        val words = "\\w+".toRegex().findAll(txt).map({ it.value }).sorted().distinct().toList().shuffled()
+        val words = "[\\w\\-]{2,}".toRegex().findAll(Jsoup.parse(txt).text()).map({ it.value }).sorted().distinct().toList().shuffled()
         val toReplace = words.takeLast((words.size * factor).toInt())
         status = "translating..."
         //TODO: customize language(s)
         val lock = Object()
         return CompletableFuture.allOf(*toReplace.map { originalWord ->
             defaultProvider.Translate(this, "", originalWord.toLowerCase(), "en").thenApply {
+                var word = it
+                if (originalWord[0].isUpperCase()) {
+                    word =it.capitalize()
+                }
                 synchronized(lock) {
-                    Log.i("replace", "$originalWord -> $it")
-                    rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$it$3")
+                    Log.i("replace", "$originalWord -> $word")
+                    rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
                 }
             }
         }.toTypedArray()).thenApply {
@@ -88,7 +93,6 @@ class ArticleActivity : AppCompatActivity() {
             findViewById<ViewGroup>(R.id.article_progress).visibility = View.GONE
         }
     }
-    //get() = findViewById<TextView>(R.id.article_progress_status).text
 
 }
 
