@@ -17,22 +17,32 @@
             android:padding="16dp"
             >
 
+            <ImageView
+                android:id="@+id/feed_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
             <Button
                 android:id="@+id/feed_item_btn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@android:drawable/ic_media_play"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/feed_item_image"
+
                 android:layout_marginRight="16dp"/>
+
             <TextView
                 android:id="@+id/feed_item_view_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/feed_item_btn"
-                android:layout_alignParentTop="true"
-                android:text="Sample title"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/feed_item_image"
+                android:layout_marginStart="64dp"
                 android:maxLines="1"
+                android:text="Sample title"
                 android:textSize="20sp" />
 
             <TextView

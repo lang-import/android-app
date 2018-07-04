@@ -93,7 +93,6 @@ class ArticleActivity : AppCompatActivity() {
             findViewById<ViewGroup>(R.id.article_progress).visibility = View.GONE
         }
     }
-    //get() = findViewById<TextView>(R.id.article_progress_status).text
 
 }
 
