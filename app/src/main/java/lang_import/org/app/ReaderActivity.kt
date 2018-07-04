@@ -98,12 +98,12 @@ class ReaderActivity : AppCompatActivity() {
             if (ex != null) {
                 runOnUiThread {
                     setTitle(ex.localizedMessage)
-                    done()
                 }
             } else {
                 runOnUiThread { showData(it) }
             }
             Logger.getLogger("READER").info("fetch complete: data=${it}, exception=${ex}")
+            done()
         })
     }
 
