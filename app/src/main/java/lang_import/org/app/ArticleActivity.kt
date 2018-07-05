@@ -19,10 +19,12 @@ import java.util.regex.Pattern
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     var part = 0
+    var targetLang=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
+        targetLang = env.getString("targetLang", "en")
         part = env.getInt("part", 0)
         setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
@@ -63,7 +65,7 @@ class ArticleActivity : AppCompatActivity() {
         //TODO: customize language(s)
         val lock = Object()
         return CompletableFuture.allOf(*toReplace.map { originalWord ->
-            defaultProvider.Translate(this, "", originalWord.toLowerCase(), "en").thenApply {
+            defaultProvider.Translate(this, "", originalWord.toLowerCase(), targetLang).thenApply {
                 var word = it
                 if (originalWord[0].isUpperCase()) {
                     word =it.capitalize()
