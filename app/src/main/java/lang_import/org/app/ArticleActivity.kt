@@ -1,6 +1,5 @@
 package lang_import.org.app
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
@@ -10,8 +9,8 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import android.widget.LinearLayout
 import android.widget.TextView
+import kotlinx.android.synthetic.main.article_activity.*
 import org.jsoup.Jsoup
 import java.util.concurrent.CompletableFuture
 import java.util.regex.Pattern
@@ -30,6 +29,10 @@ class ArticleActivity : AppCompatActivity() {
         viewManager = LinearLayoutManager(this)
         val webView = findViewById<WebView>(R.id.article_description)
 
+        back_btn.setOnClickListener { view ->
+            this.finish()
+        }
+
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
         status = "loading..."
@@ -39,7 +42,7 @@ class ArticleActivity : AppCompatActivity() {
                 Log.e("import", "translate", ex)
                 return@whenComplete
             }
-            val content = "<html><body>${readedTxt}</body></html>"
+            val content = "<html><body>${readedTxt}<br/><br/><br/><br/></body></html>"
             runOnUiThread {
                 webView.settings.javaScriptEnabled = false
                 webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
@@ -62,7 +65,6 @@ class ArticleActivity : AppCompatActivity() {
         val words = "[\\w\\-]{2,}".toRegex().findAll(Jsoup.parse(txt).text()).map({ it.value }).sorted().distinct().toList().shuffled()
         val toReplace = words.takeLast((words.size * factor).toInt())
         status = "translating..."
-        //TODO: customize language(s)
         val lock = Object()
         return CompletableFuture.allOf(*toReplace.map { originalWord ->
             defaultProvider.Translate(this, "", originalWord.toLowerCase(), targetLang).thenApply {
