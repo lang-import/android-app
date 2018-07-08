@@ -8,6 +8,7 @@ import java.util.logging.Logger
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.preference.PreferenceManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
@@ -17,13 +18,42 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
 
 class ReaderActivity : AppCompatActivity() {
-    val reader by lazy { FeedReader("https://habr.com/rss/all/", this) }
+    //val reader by lazy { FeedReader("https://habr.com/rss/all/", this) }
+    //draft BD
+    val informersMap:HashMap <String,String> = hashMapOf(
+            "HABR" to "https://habr.com/rss/all/",
+            "Yandex.science" to "https://news.yandex.ru/science.rss",
+            "mail.ru" to "https://news.mail.ru/rss/"
+    )
+    var informerURL=""
+    val reader by lazy { FeedReader(informerURL, this) }
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val env = PreferenceManager.getDefaultSharedPreferences(this)
+        //informerURL=env.getString("informerURL", "https://habr.com/rss/all/")
+
+        //draft dummy for one url
+        //TODO multiple URL
+        val envInformers=env.getStringSet("informers", mutableSetOf())
+        //first App Launch need test
+        if (envInformers.isEmpty()){
+            val intent = Intent(this, InformersMenu::class.java)
+            startActivity(intent)
+        }
+        for (informer in envInformers){
+            if (informersMap.containsKey(informer)) {
+                informerURL= informersMap.getValue(informer)
+            }else{
+                //clear informers list from unexpected value
+                envInformers.remove(informer)
+                env.edit().putStringSet("informers",envInformers).apply()
+            }
+        }
+
         setContentView(R.layout.activity_reader)
         update()
 

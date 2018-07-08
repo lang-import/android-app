@@ -28,6 +28,10 @@
             android:name=".ConfigActivity" android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
+        <activity
+            android:name=".InformersMenu" android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+        </activity>
 
     </application>
 
