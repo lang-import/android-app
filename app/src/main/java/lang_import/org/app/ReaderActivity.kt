@@ -18,45 +18,58 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
 
 class ReaderActivity : AppCompatActivity() {
-    //val reader by lazy { FeedReader("https://habr.com/rss/all/", this) }
     //draft BD
-    val informersMap:HashMap <String,String> = hashMapOf(
+    val informersMap: HashMap<String, String> = hashMapOf(
             "HABR" to "https://habr.com/rss/all/",
             "Yandex.science" to "https://news.yandex.ru/science.rss",
             "mail.ru" to "https://news.mail.ru/rss/"
     )
-    var informerURL=""
-    val reader by lazy { FeedReader(informerURL, this) }
+    var informerURL = ""
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    fun get_reader(cotext: Context): FeedReader {
+        val reader = FeedReader(informerURL, cotext)
+        return reader
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        val env = PreferenceManager.getDefaultSharedPreferences(this)
+        val refresh = env.getBoolean("needRefresh", false)
+        if (refresh) {
+            env.edit().putBoolean("needRefresh", false).apply()
+            finish()
+            startActivity(getIntent())
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val context: Context = getApplicationContext()
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
-        //informerURL=env.getString("informerURL", "https://habr.com/rss/all/")
-
         //draft dummy for one url
         //TODO multiple URL
-        val envInformers=env.getStringSet("informers", mutableSetOf())
-        //first App Launch need test
-        if (envInformers.isEmpty()){
+        val envInformers = env.getStringSet("informers", mutableSetOf())
+
+        //first App Launch
+        if (envInformers.isEmpty()) {
             val intent = Intent(this, InformersMenu::class.java)
             startActivity(intent)
         }
-        for (informer in envInformers){
+        for (informer in envInformers) {
             if (informersMap.containsKey(informer)) {
-                informerURL= informersMap.getValue(informer)
-            }else{
-                //clear informers list from unexpected value
+                informerURL = informersMap.getValue(informer)
+            } else {
                 envInformers.remove(informer)
-                env.edit().putStringSet("informers",envInformers).apply()
+                env.edit().putStringSet("informers", envInformers).apply()
+                //TODO Force update env
             }
         }
 
         setContentView(R.layout.activity_reader)
-        update()
-
+        update(context)
         viewManager = LinearLayoutManager(this)
 
         setSupportActionBar(toolbar)
@@ -121,10 +134,10 @@ class ReaderActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun update() {
-        setTitle("loading ${reader.url}...")
+    fun update(context: Context) {
+        setTitle("loading ${get_reader(context).url}...")
         status = "loading..."
-        reader.fetch().whenComplete({ it, ex ->
+        get_reader(context).fetch().whenComplete({ it, ex ->
             if (ex != null) {
                 runOnUiThread {
                     setTitle(ex.localizedMessage)

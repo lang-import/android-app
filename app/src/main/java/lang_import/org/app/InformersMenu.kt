@@ -54,7 +54,10 @@ class InformersMenu : AppCompatActivity() {
                 }
             }
             env.edit().putStringSet("informers", currentInformersList).apply()
+            env.edit().putBoolean("needRefresh",true).apply()
             forceUpdateEnv()
+
+
         }
         //TODO add title
         //setTitle(intent.extras.getString("title"))
