@@ -29,10 +29,8 @@ class ReaderActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    fun get_reader(cotext: Context): FeedReader {
-        val reader = FeedReader(informerURL, cotext)
-        return reader
-    }
+    val reader: FeedReader
+        get() = FeedReader(informerURL, this)
 
     override fun onRestart() {
         super.onRestart()
@@ -135,9 +133,9 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     fun update(context: Context) {
-        setTitle("loading ${get_reader(context).url}...")
+        setTitle("loading ${reader.url}...")
         status = "loading..."
-        get_reader(context).fetch().whenComplete({ it, ex ->
+        reader.fetch().whenComplete({ it, ex ->
             if (ex != null) {
                 runOnUiThread {
                     setTitle(ex.localizedMessage)
