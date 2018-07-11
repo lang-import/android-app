@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.*
 import kotlinx.android.synthetic.main.config_activity.*
+import android.content.Intent
 
 
 class ConfigActivity : AppCompatActivity() {
@@ -60,6 +61,10 @@ class ConfigActivity : AppCompatActivity() {
             }
         }
 
+        informers.setOnClickListener {
+            val intent = Intent(this, InformersMenu::class.java)
+            startActivity(intent)
+        }
     }
 
 }
