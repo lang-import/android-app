@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import java.util.logging.Logger
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -16,6 +15,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+
 
 class ReaderActivity : AppCompatActivity() {
     //draft BD
@@ -135,17 +137,11 @@ class ReaderActivity : AppCompatActivity() {
     fun update(context: Context) {
         setTitle("loading ${reader.url}...")
         status = "loading..."
-        reader.fetch().whenComplete({ it, ex ->
-            if (ex != null) {
-                runOnUiThread {
-                    setTitle(ex.localizedMessage)
-                }
-            } else {
-                runOnUiThread { showData(it) }
-            }
-            Logger.getLogger("READER").info("fetch complete: data=${it}, exception=${ex}")
-            done()
-        })
+        launch{
+            val feed = async{FeedReader(informerURL, context).fetch()}
+            val completeFeed = feed.await()
+            runOnUiThread {showData(completeFeed)}
+        }
     }
 
     fun showData(feed: Feed) {
