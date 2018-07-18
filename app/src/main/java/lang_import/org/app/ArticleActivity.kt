@@ -1,5 +1,6 @@
 package lang_import.org.app
 
+import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
@@ -11,14 +12,15 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.article_activity.*
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
-import java.util.concurrent.CompletableFuture
 import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     var part = 0
-    var targetLang=""
+    var targetLang = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,18 +38,18 @@ class ArticleActivity : AppCompatActivity() {
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
         status = "loading..."
-        importLang(clearText(intent.extras.getString("discript"))).whenComplete { readedTxt, ex ->
-            status = "preparing..."
-            if (ex != null) {
-                Log.e("import", "translate", ex)
-                return@whenComplete
+        launch {
+            val res = async { importLang(clearText(intent.extras.getString("discript"))) }.await()
+            fun preparing(res: String) {
+                status = "preparing..."
+                val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
+                runOnUiThread {
+                    webView.settings.javaScriptEnabled = false
+                    webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
+                }
+                done()
             }
-            val content = "<html><body>${readedTxt}<br/><br/><br/><br/></body></html>"
-            runOnUiThread {
-                webView.settings.javaScriptEnabled = false
-                webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
-            }
-            done()
+            preparing(res)
         }
 
 
@@ -58,28 +60,32 @@ class ArticleActivity : AppCompatActivity() {
     }
 
 
-    fun importLang(txt: String): CompletableFuture<String> {
+    suspend fun importLang(txt: String): String {
         var rep = txt
         val factor = part.toDouble() / 100
-
         val words = "[\\w\\-]{2,}".toRegex().findAll(Jsoup.parse(txt).text()).map({ it.value }).sorted().distinct().toList().shuffled()
         val toReplace = words.takeLast((words.size * factor).toInt())
         status = "translating..."
         val lock = Object()
-        return CompletableFuture.allOf(*toReplace.map { originalWord ->
-            defaultProvider.Translate(this, "", originalWord.toLowerCase(), targetLang).thenApply {
-                var word = it
-                if (originalWord[0].isUpperCase()) {
-                    word =it.capitalize()
-                }
-                synchronized(lock) {
-                    Log.i("replace", "$originalWord -> $word")
-                    rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
-                }
-            }
-        }.toTypedArray()).thenApply {
-            rep
+        val context: Context = getApplicationContext()
+        for (originalWord in toReplace) {
+            rep = exchange(originalWord, lock, context, rep)
         }
+        return rep
+    }
+
+    suspend fun exchange(originalWord: String, lock: Any, context: Context, txt: String): String {
+        var rep = txt
+        val str = async { defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang) }.await()
+        var word = str
+        if (originalWord[0].isUpperCase()) {
+            word = str.capitalize()
+        }
+        synchronized(lock) {
+        Log.i("replace", "$originalWord -> $word")
+        rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
+        }
+        return rep
     }
 
     var status: CharSequence = ""

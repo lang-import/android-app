@@ -17,6 +17,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import java.util.logging.Logger
 
 
 class ReaderActivity : AppCompatActivity() {
@@ -141,6 +142,8 @@ class ReaderActivity : AppCompatActivity() {
             val feed = async{FeedReader(informerURL, context).fetch()}
             val completeFeed = feed.await()
             runOnUiThread {showData(completeFeed)}
+            Logger.getLogger("READER").info("fetch complete: data=${completeFeed}, exception={TODO}")
+            done()
         }
     }
 
