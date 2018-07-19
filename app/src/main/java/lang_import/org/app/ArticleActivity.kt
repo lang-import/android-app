@@ -39,17 +39,17 @@ class ArticleActivity : AppCompatActivity() {
         setTitle(intent.extras.getString("title"))
         status = "loading..."
         launch {
-            val res = async { importLang(clearText(intent.extras.getString("discript"))) }.await()
-            fun preparing(res: String) {
-                status = "preparing..."
-                val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
-                runOnUiThread {
-                    webView.settings.javaScriptEnabled = false
-                    webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
-                }
-                done()
+            val res = importLang(clearText(intent.extras.getString("discript")))
+
+            status = "preparing..."
+            val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
+            runOnUiThread {
+                webView.settings.javaScriptEnabled = false
+                webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
             }
-            preparing(res)
+            done()
+
+
         }
 
 
@@ -76,7 +76,7 @@ class ArticleActivity : AppCompatActivity() {
 
     suspend fun exchange(originalWord: String, lock: Any, context: Context, txt: String): String {
         var rep = txt
-        val str = async { defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang) }.await()
+        val str = defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang)
         var word = str
         if (originalWord[0].isUpperCase()) {
             word = str.capitalize()
