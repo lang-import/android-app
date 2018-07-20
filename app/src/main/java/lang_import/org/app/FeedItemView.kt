@@ -64,7 +64,7 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
 
                     override fun onError(e: Exception?) {
                         img.visibility = View.GONE
-
+                        //TODO check this block View.GONE mb not working
                         Log.e("image fetcher", url, e)
                     }
 
