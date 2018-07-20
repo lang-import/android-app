@@ -27,7 +27,7 @@ class ReaderActivity : AppCompatActivity() {
             "Yandex.science" to "https://news.yandex.ru/science.rss",
             "mail.ru" to "https://news.mail.ru/rss/"
     )
-    var informerURL = ""
+    var informerURL = informersMap.values.first()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
