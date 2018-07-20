@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import java.util.logging.Logger
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -16,6 +15,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import java.util.logging.Logger
+
 
 class ReaderActivity : AppCompatActivity() {
     //draft BD
@@ -24,7 +27,7 @@ class ReaderActivity : AppCompatActivity() {
             "Yandex.science" to "https://news.yandex.ru/science.rss",
             "mail.ru" to "https://news.mail.ru/rss/"
     )
-    var informerURL = ""
+    var informerURL = informersMap.values.first()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -135,17 +138,13 @@ class ReaderActivity : AppCompatActivity() {
     fun update(context: Context) {
         setTitle("loading ${reader.url}...")
         status = "loading..."
-        reader.fetch().whenComplete({ it, ex ->
-            if (ex != null) {
-                runOnUiThread {
-                    setTitle(ex.localizedMessage)
-                }
-            } else {
-                runOnUiThread { showData(it) }
-            }
-            Logger.getLogger("READER").info("fetch complete: data=${it}, exception=${ex}")
+        launch{
+            val feed = async{FeedReader(informerURL, context).fetch()}
+            val completeFeed = feed.await()
+            runOnUiThread {showData(completeFeed)}
+            Logger.getLogger("READER").info("fetch complete: data=${completeFeed}, exception={TODO}")
             done()
-        })
+        }
     }
 
     fun showData(feed: Feed) {
