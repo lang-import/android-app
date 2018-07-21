@@ -28,9 +28,9 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
             val doc = Jsoup.parse("<html><body>" + feedItem.summary + "</body></html>")
             val imgUrl = doc.getElementsByTag("img")
             val imgSrc = imgUrl.map { it.attr("src") }.firstOrNull() { it.isNotEmpty() }
-            if (imgSrc != null) {
-                getImage(imgSrc)
-            }
+
+            getImage(imgSrc)
+
             var text = doc.wholeText().split("\n").get(0).trim()
             if (text.isBlank()) {
                 text = feedItem.title
@@ -50,11 +50,12 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
             }
         }
 
-    fun getImage(url: String) {
+    fun getImage(url: String?) {
         val img = findViewById<ImageView>(R.id.feed_item_image)
-        Log.i("getting image", url)
+        //Log.i("getting image", url)
         Picasso.get().load(url)
                 .centerCrop()
+                .placeholder(R.drawable.header) //dummy need another image
                 .fit()
                 .into(img, object : Callback {
                     override fun onSuccess() {
