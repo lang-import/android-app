@@ -4,31 +4,17 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/custom_dicts_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <!--EXAMPLE BUTTONS -->
         <Button
-            android:id="@+id/engl"
+            android:id="@+id/dict_new_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="English" />
-        <Button
-            android:id="@+id/phil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Philippines" />
-        <Button
-            android:id="@+id/japan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Japan" />
-        <Button
-            android:id="@+id/rus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Russian" />
+            android:text="new" />
 
     </LinearLayout>
 </ScrollView>

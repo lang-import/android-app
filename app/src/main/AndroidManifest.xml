@@ -32,7 +32,14 @@
             android:name=".InformersMenu" android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
-
+        <activity
+            android:name=".DictCreateActivity" android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+        </activity>
+        <activity
+            android:name=".DictShowActivity" android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+        </activity>
     </application>
 
 
