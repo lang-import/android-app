@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import database
+import org.jetbrains.anko.db.*
 
 
 class DictCreateActivity : AppCompatActivity() {
@@ -52,7 +54,13 @@ class DictCreateActivity : AppCompatActivity() {
                 dictsList.add(resTxt.toString())
                 env.edit().putStringSet("customDicts", dictsList).apply()
                 forceUpdateEnv()
-                println(resTxt)
+
+                database.use {
+                    createTable(resTxt.toString(), true,
+                            "id" to INTEGER + PRIMARY_KEY + UNIQUE,
+                            "ref" to TEXT,
+                            "translate" to TEXT)
+                }
             }
         }
 
