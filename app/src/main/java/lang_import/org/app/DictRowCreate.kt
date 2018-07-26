@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import database
 import org.jetbrains.anko.db.*
+import android.support.design.widget.TextInputEditText as EditTxt
+import org.jetbrains.anko.startActivity as start
 
 
 class DictRowCreate : AppCompatActivity() {
@@ -18,9 +20,10 @@ class DictRowCreate : AppCompatActivity() {
         setContentView(R.layout.dict_row_create)
         viewManager = LinearLayoutManager(this)
         val dictName = intent.extras.getString("dictName")
+
         val completeBtn = findViewById<Button>(R.id.dict_complete)
-        val ref = findViewById<android.support.design.widget.TextInputEditText>(R.id.newRef)
-        val translate = findViewById<android.support.design.widget.TextInputEditText>(R.id.newTranslate)
+        val ref = findViewById<EditTxt>(R.id.newRef)
+        val translate = findViewById<EditTxt>(R.id.newTranslate)
 
         val allRows = database.use {
             select(dictName).exec { parseList(classParser<DictRowParser>()) }
@@ -40,11 +43,14 @@ class DictRowCreate : AppCompatActivity() {
             }
 
 
-            val baggage = Bundle()
-            baggage.putString("dictName", dictName)
-            val intent = Intent(this, DictShowActivity::class.java)
-            intent.putExtras(baggage)
-            startActivity(intent)
+//            val baggage = Bundle()
+//            baggage.putString("dictName", dictName)
+//            val intent = Intent(this, DictShowActivity::class.java)
+//            intent.putExtras(baggage)
+//            startActivity(intent)
+
+            finish()
+            start<DictShowActivity>("dictName" to dictName)
         }
     }
 

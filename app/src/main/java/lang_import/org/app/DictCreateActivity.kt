@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import database
 import org.jetbrains.anko.db.*
+import org.jetbrains.anko.startActivity as start
 
 
 class DictCreateActivity : AppCompatActivity() {
@@ -25,7 +26,7 @@ class DictCreateActivity : AppCompatActivity() {
         val completeBtn = findViewById<Button>(R.id.dict_complete)
         val txtInput = findViewById<EditText>(R.id.newDictName)
 
-        //TODO this is double need create common function
+        //TODO this is repeate need create common function
         fun forceUpdateEnv() {
             env.edit().putInt("dummy", 0).apply()
             env.edit().putInt("dummy", 1).apply()
@@ -61,6 +62,10 @@ class DictCreateActivity : AppCompatActivity() {
                             "ref" to TEXT,
                             "translate" to TEXT)
                 }
+
+                finish()
+                start<DictActivity>()
+
             }
         }
 

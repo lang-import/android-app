@@ -1,7 +1,6 @@
 package lang_import.org.app
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +9,9 @@ import android.support.v4.content.ContextCompat
 import android.widget.*
 import database
 import org.jetbrains.anko.db.*
+import android.widget.LinearLayout.LayoutParams as lParams
+import android.widget.TableRow.LayoutParams as tParams
+import org.jetbrains.anko.startActivity as start
 
 
 class DictShowActivity : AppCompatActivity() {
@@ -20,8 +22,8 @@ class DictShowActivity : AppCompatActivity() {
         val dictName = intent.extras.getString("dictName")
         setContentView(R.layout.dict_show_activity)
         viewManager = LinearLayoutManager(this)
-        val txt = findViewById<TextView>(R.id.textView1)
-        txt.text = dictName
+        val dbName = findViewById<TextView>(R.id.db_name)
+        dbName.text = "База данных: ${dictName}"
         val layout = findViewById(R.id.show_dict) as LinearLayout
 
         fun configureTextView(string: String, item: TextView): TextView {
@@ -29,9 +31,9 @@ class DictShowActivity : AppCompatActivity() {
             val cell = ContextCompat.getDrawable(this, R.drawable.cell)
             item.text = string
             item.background = cell
-            val width = LinearLayout.LayoutParams.MATCH_PARENT
-            val height = LinearLayout.LayoutParams.WRAP_CONTENT
-            item.setLayoutParams(TableRow.LayoutParams(width, height, 1f))
+            val width = lParams.MATCH_PARENT
+            val height = lParams.WRAP_CONTENT
+            item.setLayoutParams(tParams(width, height, 1f))
             return item
         }
 
@@ -39,13 +41,11 @@ class DictShowActivity : AppCompatActivity() {
             val refItem = configureTextView(ref, TextView(this))
             val translateItem = configureTextView(translate, TextView(this))
             val subll = LinearLayout(this)
+            val opts = lParams(lParams.MATCH_PARENT, lParams.WRAP_CONTENT)
 
             subll.addView(refItem)
             subll.addView(translateItem)
-            val opts = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+
             layout.addView(subll, opts)
         }
 
@@ -59,21 +59,13 @@ class DictShowActivity : AppCompatActivity() {
         }
 
 
-        val btn = Button(this)
-        btn.text = "добавить"
-        layout.addView(btn,
-                LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-        )
+        val addBtn = Button(this)
+        addBtn.text = "добавить"
+        layout.addView(addBtn, lParams(lParams.MATCH_PARENT, lParams.WRAP_CONTENT))
 
-        btn.setOnClickListener {
-            val baggage = Bundle()
-            baggage.putString("dictName", dictName)
-            val intent = Intent(this, DictRowCreate::class.java)
-            intent.putExtras(baggage)
-            startActivity(intent)
+        addBtn.setOnClickListener {
+            finish()
+            start<DictRowCreate>("dictName" to dictName)
         }
 
     }
