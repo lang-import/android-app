@@ -11,9 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.TextView
+import database
 import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.parseList
+import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
 import java.util.regex.Pattern
 
@@ -21,10 +25,12 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     var part = 0
     var targetLang = ""
+    var usedDict = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
+        usedDict = env.getString("usedDict", "")
         targetLang = env.getString("targetLang", "en")
         part = env.getInt("part", 0)
         setContentView(R.layout.article_activity)
@@ -71,6 +77,11 @@ class ArticleActivity : AppCompatActivity() {
         for (originalWord in toReplace) {
             rep = exchange(originalWord, lock, context, rep)
         }
+        //stage local translate
+        if (usedDict != "") {
+            Log.i("replace", "Start translate with local dict ${usedDict}")
+            rep = localTranslater(rep)
+        }
         return rep
     }
 
@@ -82,10 +93,27 @@ class ArticleActivity : AppCompatActivity() {
             word = str.capitalize()
         }
         synchronized(lock) {
-        Log.i("replace", "$originalWord -> $word")
-        rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
+            Log.i("replace", "$originalWord -> $word")
+            rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
         }
         return rep
+    }
+
+    private fun localTranslater(rep: String): String {
+        var res = rep
+        val allRows = database.use {
+            select(usedDict).exec { parseList(classParser<DictRowParser>()) }
+        }
+        for (rowObj in allRows) {
+            val rowLst = rowObj.getLst()
+            //TODO update getting word for replace
+            // (exampe "word" cases: "word, ..." or ")password" )
+            if (rowLst[0] in rep){
+                res = res.replace(rowLst[0], rowLst[1])
+                Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
+            }
+        }
+        return res
     }
 
     var status: CharSequence = ""
