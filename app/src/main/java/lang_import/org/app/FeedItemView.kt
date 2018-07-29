@@ -55,7 +55,7 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
         //Log.i("getting image", url)
         Picasso.get().load(url)
                 .centerCrop()
-                .placeholder(R.drawable.header) //dummy need another image
+                .placeholder(R.drawable.noimg) //dummy need another image
                 .fit()
                 .into(img, object : Callback {
                     override fun onSuccess() {
