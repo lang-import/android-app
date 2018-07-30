@@ -1,7 +1,6 @@
 package lang_import.org.app
 
 import android.content.Context
-import com.android.volley.toolbox.Volley
 import kotlinx.coroutines.experimental.async
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
@@ -17,18 +16,26 @@ data class Item(@field:Element(name = "title", required = false) var title: Stri
 
 
 @Root(name = "channel", strict = false)
-data class Channel(@field:Element(name = "title") var title: String = "", @field:ElementList(name = "item", inline = true) var item: List<Item> = mutableListOf<Item>())
+data class Channel(@field:Element(name = "title") var title: String = "", @field:ElementList(name = "item", inline = true) var item: MutableList<Item> = mutableListOf<Item>())
 
 @Root(name = "rss", strict = false)
 data class Feed(@field:Element(name = "channel") var channel: Channel = Channel())
 
 
 class FeedReader(val url: String, context: Context) {
-    private val queue = Volley.newRequestQueue(context)
 
     suspend fun fetch(): Feed {
         val result = async { URL(url).readText() }
         return FeedParser().parseContent(result.await())
+    }
+
+    fun merge(old: Feed, new: Feed): Feed {
+        if (old.channel.title != ""){
+            //TODO Some merge names
+            new.channel.title="Все новости"
+        }
+        new.channel.item.addAll(old.channel.item)
+        return new
     }
 }
 

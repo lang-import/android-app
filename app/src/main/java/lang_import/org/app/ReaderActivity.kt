@@ -27,13 +27,21 @@ class ReaderActivity : AppCompatActivity() {
             "Yandex.science" to "https://news.yandex.ru/science.rss",
             "mail.ru" to "https://news.mail.ru/rss/"
     )
-    var informerURL = informersMap.values.first()
+    var informerURLList = mutableSetOf<String>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    val reader: FeedReader
-        get() = FeedReader(informerURL, this)
+    val readerList: MutableList<FeedReader>
+        get() = FeedReaderList()
+
+    fun FeedReaderList(): MutableList<FeedReader> {
+        val lst = mutableListOf<FeedReader>()
+        for (url in informerURLList) {
+            lst.add(FeedReader(url, this))
+        }
+        return lst
+    }
 
     override fun onRestart() {
         super.onRestart()
@@ -50,8 +58,6 @@ class ReaderActivity : AppCompatActivity() {
         val context: Context = getApplicationContext()
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
-        //draft dummy for one url
-        //TODO multiple URL
         val envInformers = env.getStringSet("informers", mutableSetOf())
 
         //first App Launch
@@ -61,7 +67,7 @@ class ReaderActivity : AppCompatActivity() {
         }
         for (informer in envInformers) {
             if (informersMap.containsKey(informer)) {
-                informerURL = informersMap.getValue(informer)
+                informerURLList.add(informersMap.getValue(informer))
             } else {
                 envInformers.remove(informer)
                 env.edit().putStringSet("informers", envInformers).apply()
@@ -136,13 +142,17 @@ class ReaderActivity : AppCompatActivity() {
     }
 
     fun update(context: Context) {
-        setTitle("loading ${reader.url}...")
+        var allFeed = Feed()
+        //setTitle("loading ${reader.url}...")
         status = "loading..."
-        launch{
-            val feed = async{FeedReader(informerURL, context).fetch()}
-            val completeFeed = feed.await()
-            runOnUiThread {showData(completeFeed)}
-            Logger.getLogger("READER").info("fetch complete: data=${completeFeed}, exception={TODO}")
+        launch {
+            for (reader in readerList) {
+                val feed = async { FeedReader(reader.url, context).fetch() }
+                val completeFeed = feed.await()
+                Logger.getLogger("READER").info("fetch complete: data=${completeFeed}")
+                allFeed = FeedReader(reader.url, context).merge(allFeed, completeFeed)
+            }
+            runOnUiThread { showData(allFeed) }
             done()
         }
     }
