@@ -12,7 +12,8 @@ import java.net.URL
 @Root(name = "item", strict = false)
 data class Item(@field:Element(name = "title", required = false) var title: String = "",
                 @field:Element(name = "link", required = false) var link: String = "",
-                @field:Element(name = "description", required = false) var summary: String = "")
+                @field:Element(name = "description", required = false) var summary: String = "",
+                @field:Element(name = "pubDate", required = false) var pubDate: String = "")
 
 
 @Root(name = "channel", strict = false)
@@ -26,15 +27,29 @@ class FeedReader(val url: String, context: Context) {
 
     suspend fun fetch(): Feed {
         val result = async { URL(url).readText() }
-        return FeedParser().parseContent(result.await())
+        return fixItemDate(FeedParser().parseContent(result.await()))
+    }
+
+    private fun fixItemDate(feed: Feed): Feed {
+        for (item in feed.channel.item) {
+            val dt = item.pubDate.trim()
+            val firstWord = dt.split(" ")[0]
+            // Crop start words for strings like "Tue, 31 Jul 2018 20:11:12 GMT"
+            if (firstWord.length > 2) {
+                item.pubDate = dt.replace(firstWord, "").trim()
+            }
+        }
+        return feed
     }
 
     fun merge(old: Feed, new: Feed): Feed {
-        if (old.channel.title != ""){
-            //TODO Some merge names
-            new.channel.title="Все новости"
+        if (old.channel.title != "") {
+            //TODO Some merge for names
+            new.channel.title = "Все новости"
         }
         new.channel.item.addAll(old.channel.item)
+        //sort items by Date
+        new.channel.item = new.channel.item.sortedWith(compareBy({ it.pubDate })).toMutableList().asReversed()
         return new
     }
 }
