@@ -22,11 +22,7 @@ import java.util.logging.Logger
 
 class ReaderActivity : AppCompatActivity() {
     //draft BD
-    val informersMap: HashMap<String, String> = hashMapOf(
-            "HABR" to "https://habr.com/rss/all/",
-            "Yandex.science" to "https://news.yandex.ru/science.rss",
-            "mail.ru" to "https://news.mail.ru/rss/"
-    )
+    val informersMap: HashMap<String, String> = Informers().map
     var informerURLList = mutableSetOf<String>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
