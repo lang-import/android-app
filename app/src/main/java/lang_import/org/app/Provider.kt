@@ -40,7 +40,7 @@ class ServerTranslator(val url: String) : TranslateProvider {
 // TODO: do it normally
 
 val defaultProvider by lazy {
-    ServerTranslator("http://78.155.219.118:8000/translate")
+    ServerTranslator("http://78.155.219.118:7878/translate")
 }
 
 
