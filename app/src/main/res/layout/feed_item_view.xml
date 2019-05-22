@@ -19,7 +19,7 @@
 
             <ImageView
                 android:id="@+id/feed_item_image"
-                android:layout_width="match_parent"
+                android:layout_width="match_parent" android:contentDescription="TODO"
                 android:layout_height="100dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
@@ -28,7 +28,7 @@
                 android:id="@+id/feed_item_btn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:background="@android:drawable/ic_media_play"
+                android:layout_marginEnd="16dp" android:layout_alignParentStart="true" android:background="@android:drawable/ic_media_play"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/feed_item_image"
 
@@ -38,9 +38,9 @@
                 android:id="@+id/feed_item_view_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
                 android:layout_below="@+id/feed_item_image"
-                android:layout_marginStart="64dp"
+                android:layout_marginLeft="64dp" android:layout_marginStart="64dp"
                 android:maxLines="1"
                 android:text="Sample title"
                 android:textSize="20sp" />
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/feed_item_view_summary"
-                android:layout_toRightOf="@+id/feed_item_btn"
+                android:layout_toEndOf="@+id/feed_item_btn" android:layout_toRightOf="@+id/feed_item_btn"
                 android:layout_below="@+id/feed_item_view_title"
                 />
 
