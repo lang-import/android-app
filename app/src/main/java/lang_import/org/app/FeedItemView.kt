@@ -29,7 +29,8 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
             val imgUrl = doc.getElementsByTag("img")
             val imgSrc = imgUrl.map { it.attr("src") }.firstOrNull() { it.isNotEmpty() }
 
-            getImage(imgSrc)
+            getImage(imgSrc, findViewById(R.id.feed_item_image))
+            getImage(feedItem.logo, findViewById(R.id.feed_item_logo), true)
 
             var text = doc.wholeText().split("\n").get(0).trim()
             if (text.isBlank()) {
@@ -50,23 +51,24 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
             }
         }
 
-    fun getImage(url: String?) {
-        val img = findViewById<ImageView>(R.id.feed_item_image)
-        //Log.i("getting image", url)
-        Picasso.get().load(url)
-                .centerCrop()
-                .placeholder(R.drawable.noimg) //dummy need another image
+    fun getImage(url: String?, v: ImageView, logo: Boolean = false) {
+        var imgUrl: String? = null
+        if (url.toString().trim() != "") {
+            imgUrl = url
+        }
+        var rootPicasso = Picasso.get().load(imgUrl).centerCrop()
+        if (logo) rootPicasso = Picasso.get().load(imgUrl).centerInside()
+        rootPicasso.placeholder(R.drawable.noimg) //dummy need another image
                 .fit()
-                .into(img, object : Callback {
+                .into(v, object : Callback {
                     override fun onSuccess() {
-                        img.visibility = View.VISIBLE
-                        Log.e("image fetcher", url)
+                        v.visibility = View.VISIBLE
+                        Log.i("image fetcher", imgUrl)
                     }
 
                     override fun onError(e: Exception?) {
-                        img.visibility = View.GONE
-                        //TODO check this block View.GONE mb not working
-                        Log.e("image fetcher", url, e)
+                        v.visibility = View.GONE
+                        Log.e("image fetcher", imgUrl, e)
                     }
 
                 })
