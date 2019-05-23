@@ -13,7 +13,8 @@ import kotlinx.android.synthetic.main.informers_menu.*
 class InformersMenu : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    var names = arrayOf("HABR", "Yandex.science", "mail.ru")
+    //var names = arrayOf("HABR", "Yandex.science", "mail.ru", "goha")
+    var names = ReaderActivity().informersMap.keys.toTypedArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +34,14 @@ class InformersMenu : AppCompatActivity() {
         val getItem = { x: Int -> informersList.getItemAtPosition(x).toString() }
 
         //preset checkbox from env
-        for (i in 0..informersList.getCount()-1) {
+        for (i in 0..informersList.getCount() - 1) {
             if (getItem(i) in currentInformersList) {
-                informersList.setItemChecked(i,true)
+                informersList.setItemChecked(i, true)
             }
         }
 
         //helper func() for hard resave SharedPreferences (update StringSet)
-        fun forceUpdateEnv(){
+        fun forceUpdateEnv() {
             env.edit().putInt("dummy", 0).apply()
             env.edit().putInt("dummy", 1).apply()
         }
@@ -54,7 +55,7 @@ class InformersMenu : AppCompatActivity() {
                 }
             }
             env.edit().putStringSet("informers", currentInformersList).apply()
-            env.edit().putBoolean("needRefresh",true).apply()
+            env.edit().putBoolean("needRefresh", true).apply()
             forceUpdateEnv()
 
 
