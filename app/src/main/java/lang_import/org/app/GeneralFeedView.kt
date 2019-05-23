@@ -9,15 +9,15 @@ class FeedAdapter(private val feed: Feed) : RecyclerView.Adapter<FeedAdapter.Vie
 
     class ViewHolder(val feedView: FeedItemView) : RecyclerView.ViewHolder(feedView)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val fv = FeedItemView(parent!!.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val fv = FeedItemView(parent.context)
         View.inflate(parent.context, R.layout.feed_item_view, fv);
         return ViewHolder(fv)
     }
 
     override fun getItemCount() = feed.channel.item.size
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.feedView?.feed = feed.channel.item[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.feedView.feed = feed.channel.item[position]
     }
 }

@@ -1,6 +1,8 @@
 package lang_import.org.app
 
 import android.content.Context
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,7 +15,7 @@ class FeedReaderTest {
 
     @Test
     fun parseContent() {
-        val fp =FeedParser()
-        val feed = fp.parseContent(sampleText).get()
+        val fp = FeedParser()
+        val feed = runBlocking { fp.parseContent(sampleText) }
     }
 }

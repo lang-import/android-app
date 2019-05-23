@@ -15,8 +15,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.logging.Logger
 
 
