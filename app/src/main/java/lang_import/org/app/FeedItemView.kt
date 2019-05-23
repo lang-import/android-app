@@ -43,12 +43,14 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
                 val baggage = Bundle()
                 baggage.putString("discript", feedItem.summary)
                 baggage.putString("title", feedItem.title)
+                baggage.putString("link", feedItem.link)
 
                 Dialog(context).setContentView(R.layout.article_activity)
                 val intent = Intent(context, ArticleActivity::class.java)
                 intent.putExtras(baggage)
                 context.startActivity(intent)
             }
+            field = feedItem
         }
 
     fun getImage(url: String?, v: ImageView, logo: Boolean = false) {

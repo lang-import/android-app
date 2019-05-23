@@ -49,6 +49,16 @@
             android:layout_margin="8dp"
             android:src="@android:drawable/ic_menu_revert"
             app:backgroundTint="@color/colorPrimary" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/more_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="8dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:backgroundTint="@color/colorPrimary" />
+
     </FrameLayout>
 
 </LinearLayout>
