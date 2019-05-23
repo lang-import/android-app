@@ -44,9 +44,9 @@ class ArticleActivity : AppCompatActivity() {
 
 
         more_btn.setOnClickListener {
+            more_btn.hide()
             val link = intent.extras.getString("link")
             fullArticle(link)
-            // TODO Hide this btn after use
         }
 
 
