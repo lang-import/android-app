@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.LinearLayout
 import android.widget.TextView
 import database
 import kotlinx.android.synthetic.main.article_activity.*
@@ -19,6 +21,7 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
+import java.io.File
 import java.net.URL
 import java.util.regex.Pattern
 
@@ -27,6 +30,36 @@ class ArticleActivity : AppCompatActivity() {
     var part = 0
     var targetLang = ""
     var usedDict = ""
+    //TODO need save css to another place
+    val css = """
+             <style>
+        .tooltip {
+          position: relative;
+          display: inline-block;
+          border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 120px;
+          background-color: black;
+          color: #fff;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px 0;
+
+          /* Position the tooltip */
+          position: absolute;
+          z-index: 1;
+          right: -10%;
+        }
+
+        .tooltip:hover .tooltiptext {
+          visibility: visible;
+        }
+        </style>
+
+    """.trimIndent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +103,12 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        Log.i("random","chpock")
+//        // we can take only hold click on webview
+//        return super.onTouchEvent(event)
+//    }
+
     //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
     fun fullArticle(link: String){
         val webView = findViewById<WebView>(R.id.article_description)
@@ -78,6 +117,7 @@ class ArticleActivity : AppCompatActivity() {
             val res = importLang(clearText(getFullArticle(link)))
             status = "preparing..."
             // TODO Need some parse...
+
             val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
             runOnUiThread {
                 webView.settings.javaScriptEnabled = false
@@ -113,6 +153,8 @@ class ArticleActivity : AppCompatActivity() {
             Log.i("replace", "Start translate with local dict ${usedDict}")
             rep = localTranslater(rep)
         }
+        rep = css + rep
+        async{Log.i("check_rep",rep)}
         return rep
     }
 
@@ -125,7 +167,10 @@ class ArticleActivity : AppCompatActivity() {
         }
         synchronized(lock) {
             Log.i("replace", "$originalWord -> $word")
-            rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
+            word = word.replace("<","").replace(">","")
+            val original = originalWord.replace("<","").replace(">","")
+            rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(),
+                    "<div class=\"tooltip\">$1$word$3<span class=\"tooltiptext\">$original</span></div>")
         }
         return rep
     }
