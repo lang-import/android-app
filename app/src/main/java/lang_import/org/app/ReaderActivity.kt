@@ -15,18 +15,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.logging.Logger
 
 
 class ReaderActivity : AppCompatActivity() {
     //draft BD
-    val informersMap: HashMap<String, String> = hashMapOf(
-            "HABR" to "https://habr.com/rss/all/",
-            "Yandex.science" to "https://news.yandex.ru/science.rss",
-            "mail.ru" to "https://news.mail.ru/rss/"
-    )
+    val informersMap: HashMap<String, String> = Informers().map
     var informerURLList = mutableSetOf<String>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>

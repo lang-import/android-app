@@ -13,8 +13,8 @@ import android.webkit.WebView
 import android.widget.TextView
 import database
 import kotlinx.android.synthetic.main.article_activity.*
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
