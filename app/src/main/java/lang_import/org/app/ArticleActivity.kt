@@ -19,6 +19,7 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
+import java.net.URL
 import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
@@ -41,6 +42,14 @@ class ArticleActivity : AppCompatActivity() {
             this.finish()
         }
 
+
+        more_btn.setOnClickListener {
+            more_btn.hide()
+            val link = intent.extras.getString("link")
+            fullArticle(link)
+        }
+
+
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
         status = "loading..."
@@ -59,6 +68,28 @@ class ArticleActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
+    fun fullArticle(link: String){
+        val webView = findViewById<WebView>(R.id.article_description)
+        status = "loading..."
+        launch {
+            val res = importLang(clearText(getFullArticle(link)))
+            status = "preparing..."
+            // TODO Need some parse...
+            val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
+            runOnUiThread {
+                webView.settings.javaScriptEnabled = false
+                webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
+            }
+            done()
+        }
+    }
+
+    suspend fun getFullArticle(url: String): String {
+        val result = async { URL(url).readText() }
+        return result.await()
     }
 
     fun clearText(txt: String): String {
@@ -108,7 +139,7 @@ class ArticleActivity : AppCompatActivity() {
             val rowLst = rowObj.getLst()
             //TODO update getting word for replace
             // (exampe "word" cases: "word, ..." or ")password" )
-            if (rowLst[0] in rep){
+            if (rowLst[0] in rep) {
                 res = res.replace(rowLst[0], rowLst[1])
                 Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
             }
@@ -124,6 +155,7 @@ class ArticleActivity : AppCompatActivity() {
                 findViewById<ViewGroup>(R.id.article_progress).visibility = View.VISIBLE
             }
 
+            field = d
         }
 
     fun done() {

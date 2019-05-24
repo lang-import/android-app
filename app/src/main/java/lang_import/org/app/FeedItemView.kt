@@ -43,12 +43,14 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
                 val baggage = Bundle()
                 baggage.putString("discript", feedItem.summary)
                 baggage.putString("title", feedItem.title)
+                baggage.putString("link", feedItem.link)
 
                 Dialog(context).setContentView(R.layout.article_activity)
                 val intent = Intent(context, ArticleActivity::class.java)
                 intent.putExtras(baggage)
                 context.startActivity(intent)
             }
+            field = feedItem
         }
 
     fun getImage(url: String?, v: ImageView, logo: Boolean = false) {
@@ -56,22 +58,20 @@ class FeedItemView(context: Context?) : LinearLayout(context) {
         if (url.toString().trim() != "") {
             imgUrl = url
         }
-        var rootPicasso = Picasso.get().load(imgUrl).centerCrop()
-        if (logo) rootPicasso = Picasso.get().load(imgUrl).centerInside()
-        rootPicasso.placeholder(R.drawable.noimg) //dummy need another image
-                .fit()
-                .into(v, object : Callback {
-                    override fun onSuccess() {
-                        v.visibility = View.VISIBLE
-                        Log.i("image fetcher", imgUrl)
-                    }
+        var rootPicasso = Picasso.get().load(imgUrl).centerCrop().placeholder(R.drawable.noimg)
+        if (logo) rootPicasso = Picasso.get().load(imgUrl).centerInside().placeholder(R.drawable.nologo) //dummy need another image
+        rootPicasso.fit().into(v, object : Callback {
+            override fun onSuccess() {
+                v.visibility = View.VISIBLE
+                Log.i("image fetcher", imgUrl)
+            }
 
-                    override fun onError(e: Exception?) {
-                        v.visibility = View.GONE
-                        Log.e("image fetcher", imgUrl, e)
-                    }
+            override fun onError(e: Exception?) {
+                v.visibility = View.GONE
+                Log.e("image fetcher", imgUrl, e)
+            }
 
-                })
+        })
 
     }
 }
