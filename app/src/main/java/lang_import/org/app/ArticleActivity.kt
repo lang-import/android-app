@@ -169,6 +169,8 @@ class ArticleActivity : AppCompatActivity() {
             Log.i("replace", "$originalWord -> $word")
             word = word.replace("<","").replace(">","")
             val original = originalWord.replace("<","").replace(">","")
+            //TODO need another way, this code broke full site version
+            // MB we shold not translte words in link and another tags
             rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(),
                     "<div class=\"tooltip\">$1$word$3<span class=\"tooltiptext\">$original</span></div>")
         }
