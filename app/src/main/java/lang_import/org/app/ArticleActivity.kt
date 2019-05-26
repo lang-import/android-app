@@ -101,11 +101,6 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        Log.i("random","chpock")
-//        // we can take only hold click on webview
-//        return super.onTouchEvent(event)
-//    }
 
     //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
     fun fullArticle(link: String) {
@@ -137,8 +132,6 @@ class ArticleActivity : AppCompatActivity() {
 
     suspend fun importLang(txt: String): String {
         var rep = txt
-        Log.i("RAW_CODE:::", txt)
-        Log.i("RAW_BOOL:::", ("новые возможности и бонусы" in rep).toString())
         val factor = part.toDouble() / 100
         // TODO change words getter (need get from articleStr)
         val words = "[\\w\\-]{2,}".toRegex().findAll(Jsoup.parse(txt).text()).map({ it.value }).sorted().distinct().toList().shuffled()
@@ -154,39 +147,19 @@ class ArticleActivity : AppCompatActivity() {
                 articleLst += articleObj
             }
         }
-
-
-        //TODO WORKED SIMPLE VARIANT
-//        for (node in Jsoup.parse(txt).body().childNodes()) {
-//            Log.i("NAMAEWA:::", node.nodeName())
-//            Log.i("HARDWAY:::", node.toString())
-//            if (arrayOf("#text").contains(node.nodeName().trim())) {
-//                val articleObj = AcrticlePart()
-//                articleObj.oldText = node.toString()
-//                articleObj.tagName = node.nodeName()
-//                articleLst += articleObj
-//            }
-//        }
-
-
-        //var articleStr = CompileAllText(articleLst)
         val toReplace = words.takeLast((words.size * factor).toInt())
         status = "translating..."
         val lock = Object()
         val context: Context = getApplicationContext()
         for (originalWord in toReplace) {
-            //val newWord = defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang)
             val newWord = exchange(originalWord, lock, context, originalWord)
             for (obj in articleLst) {
                 if (originalWord in obj.oldText) {
                     obj.newText = obj.oldText.replace(originalWord, newWord)
-                    val old_rep = rep
                     rep = rep.replace(obj.oldText.trim(), obj.newText.trim())
                     obj.oldText = obj.newText
-//                    Log.i("replaced???", (rep != old_rep).toString())
                 }
             }
-            //rep = exchange(originalWord, lock, context, rep) //old replace
         }
         //stage local translate
         if (usedDict != "") {
@@ -194,7 +167,6 @@ class ArticleActivity : AppCompatActivity() {
             rep = localTranslater(rep)
         }
         rep = css + rep
-//        async { Log.i("check_rep", rep) }
         return rep
     }
 
@@ -210,14 +182,6 @@ class ArticleActivity : AppCompatActivity() {
         return lst
     }
 
-//    private fun CompileAllText(articleLst: MutableList<AcrticlePart>): String {
-//        var result = ""
-//        for (obj in articleLst) {
-//            result += obj.oldText + " "
-//        }
-//        return result
-//    }
-
     suspend fun exchange(originalWord: String, lock: Any, context: Context, txt: String): String {
         var rep = txt
         val str = defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang)
@@ -228,8 +192,6 @@ class ArticleActivity : AppCompatActivity() {
         synchronized(lock) {
             Log.i("replace", "$originalWord -> $word")
             // TODO get list of marked txt and change it all in one rq?
-//            rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(),
-//                    "<div class=\"tooltip\">$1$word$3<span class=\"tooltiptext\">$originalWord</span></div>")
             rep = rep.replace(originalWord, "<div class=\"tooltip\">$word<span class=\"tooltiptext\">$originalWord</span></div>")
         }
         return rep
