@@ -173,10 +173,12 @@ class ArticleActivity : AppCompatActivity() {
     fun NodeIter(srcNode: Node, myNodeList: List<Node>): List<Node> {
         var lst = myNodeList
         for (node in srcNode.childNodes()) {
-            if (arrayOf("#text").contains(node.nodeName().trim())) {
-                lst += node
-            } else {
-                lst = NodeIter(node, lst);
+            if (!arrayOf("a","img").contains(node.nodeName().trim())) {
+                if (arrayOf("#text").contains(node.nodeName().trim())) {
+                    lst += node
+                } else {
+                    lst = NodeIter(node, lst);
+                }
             }
         }
         return lst
