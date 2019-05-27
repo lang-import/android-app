@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.beust.klaxon.Klaxon
 import database
 import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.coroutines.async
@@ -109,8 +110,6 @@ class ArticleActivity : AppCompatActivity() {
         launch {
             val res = importLang(clearText(getFullArticle(link)))
             status = "preparing..."
-            // TODO Need some parse...
-
             val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
             runOnUiThread {
                 webView.settings.javaScriptEnabled = false
@@ -149,20 +148,23 @@ class ArticleActivity : AppCompatActivity() {
         }
         val toReplace = words.takeLast((words.size * factor).toInt())
         status = "translating..."
-        val lock = Object()
-        val context: Context = getApplicationContext()
-        for (originalWord in toReplace) {
-            val newWord = exchange(originalWord, lock, context, originalWord)
-            for (obj in articleLst) {
-                if (originalWord in obj.oldText) {
-                    obj.newText = obj.oldText.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(),
-                            "$1$newWord$3")
 
-                    rep = rep.replace(obj.oldText.trim(), obj.newText.trim())
-                    obj.oldText = obj.newText
+        val newWords = massExchange(toReplace)
+        if (newWords != null) {
+            for (w in newWords) {
+                for (obj in articleLst) {
+                    if (w.original in obj.oldText) {
+                        obj.newText = obj.oldText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
+                                "$1${w.word}$3")
+                        rep = rep.replace(obj.oldText.trim(), obj.newText.trim())
+                        obj.oldText = obj.newText
+                    }
                 }
             }
         }
+
+
+        //}
         //stage local translate
         if (usedDict != "") {
             Log.i("replace", "Start translate with local dict ${usedDict}")
@@ -185,6 +187,31 @@ class ArticleActivity : AppCompatActivity() {
 
         }
         return lst
+    }
+
+    class FullWord(var original: String, val lang: String, var word: String, val spell: String)
+
+    suspend fun massExchange(originalWords: List<String>): List<FullWord>? {
+        var finalList = listOf<FullWord>()
+        val result = defaultProvider.MassTranslate(originalWords, targetLang)
+        val jsonResponse = Klaxon().parseArray<FullWord>(result)
+        if (jsonResponse != null) {
+            var i = 0
+            for (r in jsonResponse) {
+                if (r.word == "") {
+                    continue
+                }
+                //todo tmp fix (need fix on backend)
+                r.original = originalWords[i].toLowerCase()
+                i += 1
+
+                Log.i("TEST_WORDS", r.original + "==>" + r.word)
+
+                r.word = "<div class=\"tooltip\">${r.word}<span class=\"tooltiptext\">${r.original}\n${r.spell}</span></div>"
+                finalList += r
+            }
+        }
+        return finalList
     }
 
     suspend fun exchange(originalWord: String, lock: Any, context: Context, txt: String): String {
