@@ -155,7 +155,9 @@ class ArticleActivity : AppCompatActivity() {
             val newWord = exchange(originalWord, lock, context, originalWord)
             for (obj in articleLst) {
                 if (originalWord in obj.oldText) {
-                    obj.newText = obj.oldText.replace(originalWord, newWord)
+                    obj.newText = obj.oldText.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(),
+                            "$1$newWord$3")
+
                     rep = rep.replace(obj.oldText.trim(), obj.newText.trim())
                     obj.oldText = obj.newText
                 }
@@ -173,13 +175,14 @@ class ArticleActivity : AppCompatActivity() {
     fun NodeIter(srcNode: Node, myNodeList: List<Node>): List<Node> {
         var lst = myNodeList
         for (node in srcNode.childNodes()) {
-            if (!arrayOf("a","img").contains(node.nodeName().trim())) {
-                if (arrayOf("#text").contains(node.nodeName().trim())) {
-                    lst += node
-                } else {
-                    lst = NodeIter(node, lst);
-                }
+            val parentCheck = arrayOf("div", "p", "span", "h1", "h2", "h3", "body").contains(node.parent().nodeName().trim())
+            val isText = arrayOf("#text").contains(node.nodeName().trim())
+            if (isText and parentCheck) {
+                lst += node
+            } else {
+                lst = NodeIter(node, lst);
             }
+
         }
         return lst
     }
@@ -194,6 +197,7 @@ class ArticleActivity : AppCompatActivity() {
         synchronized(lock) {
             Log.i("replace", "$originalWord -> $word")
             // TODO get list of marked txt and change it all in one rq?
+            // TODO originalWord + "," or "." or "!" and more...
             rep = rep.replace(originalWord, "<div class=\"tooltip\">$word<span class=\"tooltiptext\">$originalWord</span></div>")
         }
         return rep
