@@ -3,7 +3,6 @@ package lang_import.org.app
 import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.async
-import org.json.JSONArray
 import java.net.URL
 import java.net.URLEncoder
 
@@ -44,7 +43,6 @@ class ServerTranslator(val url: String) : TranslateProvider {
         var urlParams = ""
         for (word in originalWords) {
             urlParams += word.toLowerCase() + ","
-            Log.i("TRANSLATE",word)
         }
         val req = url + "batch-translate/to/" + URLEncoder.encode(targetLanguage, "UTF-8") + "?words=" + urlParams
         val res = async { URL(req).readText() }.await()

@@ -49,6 +49,8 @@ class ArticleActivity : AppCompatActivity() {
           /* Position the tooltip */
           position: absolute;
           z-index: 1;
+          top: 100%;
+          left: -10%;
         }
 
         .tooltip:hover .tooltiptext {
