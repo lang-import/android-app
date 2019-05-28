@@ -212,18 +212,26 @@ class ArticleActivity : AppCompatActivity() {
         return importWords
     }
 
-    // TODO need return local translate to logic
+
     private fun localTranslater(rep: String): String {
         var res = rep
+
+        // TODO add another way to leave if base not exist
+        if (usedDict==""){
+            return rep
+        }
+
         val allRows = database.use {
             select(usedDict).exec { parseList(classParser<DictRowParser>()) }
         }
         for (rowObj in allRows) {
             val rowLst = rowObj.getLst()
-            //TODO update getting word for replace
-            // (exampe "word" cases: "word, ..." or ")password" )
-            if (rowLst[0] in rep) {
-                res = res.replace(rowLst[0], rowLst[1])
+            val original = rowLst[0].trim().toLowerCase()
+            val import = rowLst[1].trim().toLowerCase()
+
+            if (original in rep) {
+                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),
+                   "$1${import}$3")
                 Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
             }
         }
@@ -234,6 +242,9 @@ class ArticleActivity : AppCompatActivity() {
         for (node in goodLines) {
             node.newText = node.newText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
                     "$1${w.lang}$3")
+
+            // check in local dicts
+            node.newText = localTranslater(node.newText)
         }
         return goodLines
     }
