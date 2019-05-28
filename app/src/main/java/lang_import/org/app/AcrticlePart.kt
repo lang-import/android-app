@@ -1,7 +1,5 @@
 package lang_import.org.app
 
-class AcrticlePart {
-    var oldText =""
-    var tagName =""
-    var newText =""
-}
+data class AcrticlePart(var oldText: String = "",
+                        var tagName: String = "",
+                        var newText: String = "")
