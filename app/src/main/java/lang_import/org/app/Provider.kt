@@ -48,8 +48,6 @@ class ServerTranslator(val url: String) : TranslateProvider {
         }
         val req = url + "batch-translate/to/" + URLEncoder.encode(targetLanguage, "UTF-8") + "?words=" + urlParams
         val res = async { URL(req).readText() }.await()
-        Log.i("mass_pre_res",originalWords.toString())
-        Log.i("mass_res",res)
         return res
     }
 }

@@ -1,17 +1,14 @@
 package lang_import.org.app
 
-import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.beust.klaxon.Klaxon
 import database
@@ -23,7 +20,6 @@ import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Node
-import java.io.File
 import java.net.URL
 import java.util.regex.Pattern
 
@@ -34,7 +30,7 @@ class ArticleActivity : AppCompatActivity() {
     var usedDict = ""
     //TODO need save css to another place
     val css = """
-             <style>
+        <style>
         .tooltip {
           position: relative;
           display: inline-block;
@@ -128,108 +124,93 @@ class ArticleActivity : AppCompatActivity() {
         return fixImg(txt)
     }
 
+    var status: CharSequence = ""
+        set(d) {
+            val view = findViewById<TextView>(R.id.article_progress_status)
+            runOnUiThread {
+                view.text = d
+                findViewById<ViewGroup>(R.id.article_progress).visibility = View.VISIBLE
+            }
 
-    suspend fun importLang(txt: String): String {
-        var rep = txt
-        val factor = part.toDouble() / 100
-        // TODO change words getter (need get from articleStr)
-        val words = "[\\w\\-]{2,}".toRegex().findAll(Jsoup.parse(txt).text()).map({ it.value }).sorted().distinct().toList().shuffled()
-        val articleLst: MutableList<AcrticlePart> = ArrayList()
-        var nodesLst: List<Node> = ArrayList()
-        nodesLst = NodeIter(Jsoup.parse(txt).body(), nodesLst)
+            field = d
+        }
 
+    fun done() {
+        runOnUiThread {
+            findViewById<ViewGroup>(R.id.article_progress).visibility = View.GONE
+        }
+    }
+
+    suspend fun importLang(rawText: String): String {
+        // Get only text-lines from strict list of tags (skip hrefs and tag attrs)
+        var goodLines = mutableListOf<AcrticlePart>()
+        val nodesLst = NodeIter(Jsoup.parse(rawText).body(), mutableListOf())
+
+        // Collect Nodes from informers
         for (node in nodesLst) {
-            if (arrayOf("#text").contains(node.nodeName().trim())) {
-                val articleObj = AcrticlePart()
-                articleObj.oldText = node.toString()
-                articleObj.tagName = node.nodeName()
-                articleLst += articleObj
+            val articleObj = AcrticlePart()
+            articleObj.oldText = node.toString()
+            articleObj.newText = articleObj.oldText
+            articleObj.tagName = node.nodeName()
+            if (articleObj.oldText.trim().split(" ").size > 2) {
+                goodLines.add(articleObj)
             }
         }
-        val toReplace = words.takeLast((words.size * factor).toInt())
+        // factor is optional word "%" from configs
+        val factor = part.toDouble() / 100
+
+        // Prepare random list of all available words for translate
+        val replaceWords = prepareWords(goodLines)
+        val toReplace = replaceWords.takeLast((replaceWords.size * factor).toInt())
         status = "translating..."
 
-        val newWords = massExchange(toReplace)
-        if (newWords != null) {
-            for (w in newWords) {
-                for (obj in articleLst) {
-                    if (w.original in obj.oldText) {
-                        obj.newText = obj.oldText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
-                                "$1${w.word}$3")
-                        rep = rep.replace(obj.oldText.trim(), obj.newText.trim())
-                        obj.oldText = obj.newText
-                    }
-                }
-            }
+        // Translate
+        val importWords = massExchange(toReplace)
+        for (word in importWords) {
+            // Export back in Nodes
+            goodLines = replaceInAllNodes(word, goodLines)
         }
 
+//        // DEBUG view
+//        for (ln in goodLines){
+//            Log.i("NEW_LINES:", ln.newText)
+//        }
 
-        //}
-        //stage local translate
-        if (usedDict != "") {
-            Log.i("replace", "Start translate with local dict ${usedDict}")
-            rep = localTranslater(rep)
+        // Export Nodes to the Source informer
+        var workText = css + " \n " + rawText
+        for (node in goodLines) {
+            workText = workText.replaceFirst(node.oldText, node.newText, true)
         }
-        rep = css + rep
-        return rep
+        return workText
     }
 
-    fun NodeIter(srcNode: Node, myNodeList: List<Node>): List<Node> {
-        var lst = myNodeList
-        for (node in srcNode.childNodes()) {
-            val parentCheck = arrayOf("div", "p", "span", "h1", "h2", "h3", "body").contains(node.parent().nodeName().trim())
-            val isText = arrayOf("#text").contains(node.nodeName().trim())
-            if (isText and parentCheck) {
-                lst += node
-            } else {
-                lst = NodeIter(node, lst);
-            }
+    class ImportWord(var original: String, var lang: String, var word: String, val spell: String)
 
-        }
-        return lst
-    }
+    suspend fun massExchange(originalWords: List<String>): MutableList<ImportWord> {
+        val importWords = mutableListOf<ImportWord>()
+        val translateResult = defaultProvider.MassTranslate(originalWords, targetLang)
 
-    class FullWord(var original: String, val lang: String, var word: String, val spell: String)
-
-    suspend fun massExchange(originalWords: List<String>): List<FullWord>? {
-        var finalList = listOf<FullWord>()
-        val result = defaultProvider.MassTranslate(originalWords, targetLang)
-        val jsonResponse = Klaxon().parseArray<FullWord>(result)
+        // Parse json answer from our service
+        val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
         if (jsonResponse != null) {
-            var i = 0
-            for (r in jsonResponse) {
-                if (r.word == "") {
-                    continue
-                }
-                //todo tmp fix (need fix on backend)
-                r.original = originalWords[i].toLowerCase()
-                i += 1
+            var i = 0 // TODO TMP FIX
+            for (rs in jsonResponse) {
+                if (rs.word == "") { // TODO TMP FIX
+                    continue        // TODO TMP FIX
+                }                   // TODO TMP FIX
+                rs.original = originalWords[i].toLowerCase()  // TODO TMP FIX
+                i += 1   // TODO TMP FIX
 
-                Log.i("TEST_WORDS", r.original + "==>" + r.word)
+                Log.i("translate::", rs.original + "==>" + rs.word)
 
-                r.word = "<div class=\"tooltip\">${r.word}<span class=\"tooltiptext\">${r.original}\n${r.spell}</span></div>"
-                finalList += r
+                rs.lang = " <div class=\"tooltip\">${rs.word}<span class=\"tooltiptext\">${rs.original}\n${rs.spell}</span></div> "
+                importWords.add(rs)
             }
         }
-        return finalList
+        return importWords
     }
 
-    suspend fun exchange(originalWord: String, lock: Any, context: Context, txt: String): String {
-        var rep = txt
-        val str = defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang)
-        var word = str
-        if (originalWord[0].isUpperCase()) {
-            word = str.capitalize()
-        }
-        synchronized(lock) {
-            Log.i("replace", "$originalWord -> $word")
-            // TODO get list of marked txt and change it all in one rq?
-            // TODO originalWord + "," or "." or "!" and more...
-            rep = rep.replace(originalWord, "<div class=\"tooltip\">$word<span class=\"tooltiptext\">$originalWord</span></div>")
-        }
-        return rep
-    }
-
+    // TODO need return local translate to logic
     private fun localTranslater(rep: String): String {
         var res = rep
         val allRows = database.use {
@@ -247,21 +228,49 @@ class ArticleActivity : AppCompatActivity() {
         return res
     }
 
-    var status: CharSequence = ""
-        set(d) {
-            val view = findViewById<TextView>(R.id.article_progress_status)
-            runOnUiThread {
-                view.text = d
-                findViewById<ViewGroup>(R.id.article_progress).visibility = View.VISIBLE
+    private fun replaceInAllNodes(w: ImportWord, goodLines: MutableList<AcrticlePart>): MutableList<AcrticlePart> {
+        for (node in goodLines) {
+            node.newText = node.newText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
+                    "$1${w.lang}$3")
+        }
+        return goodLines
+    }
+
+
+    private fun prepareWords(articleLst: MutableList<AcrticlePart>): MutableList<String> {
+        var workText = ""
+        for (obj in articleLst) {
+            workText += obj.oldText.trim() + " "
+        }
+        val words = "[\\w\\-]{2,}".toRegex().findAll(workText).map({ it.value }).sorted().distinct().toList().shuffled()
+        val toReplace = filterWords(words)
+
+        return toReplace
+    }
+
+    private fun filterWords(words: List<String>): MutableList<String> {
+        val result = mutableListOf<String>()
+        for (w in words) {
+            if (w.trim().length > 2) {
+                result.add(w.trim())
             }
-
-            field = d
         }
+        return result
+    }
 
-    fun done() {
-        runOnUiThread {
-            findViewById<ViewGroup>(R.id.article_progress).visibility = View.GONE
+    private fun NodeIter(srcNode: Node, lst: MutableList<Node>): MutableList<Node> {
+        var workList = lst
+        for (node in srcNode.childNodes()) {
+            val isValidParent = (node.parent().nodeName().trim() in arrayOf("div", "p", "span", "h1", "h2", "h3", "body"))
+            val isText = node.nodeName().trim() == "#text"
+
+            if (isText and isValidParent) {
+                workList.add(node)
+            } else {
+                workList = NodeIter(node, workList);
+            }
         }
+        return workList
     }
 
 }
