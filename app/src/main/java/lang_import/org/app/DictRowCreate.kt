@@ -42,13 +42,6 @@ class DictRowCreate : AppCompatActivity() {
                 )
             }
 
-
-//            val baggage = Bundle()
-//            baggage.putString("dictName", dictName)
-//            val intent = Intent(this, DictShowActivity::class.java)
-//            intent.putExtras(baggage)
-//            startActivity(intent)
-
             finish()
             start<DictShowActivity>("dictName" to dictName)
         }
