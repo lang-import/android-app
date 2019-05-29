@@ -1,6 +1,5 @@
 package lang_import.org.app
 
-import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.TextView
+import com.beust.klaxon.Klaxon
 import database
 import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.coroutines.async
@@ -19,6 +19,7 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Node
 import java.net.URL
 import java.util.regex.Pattern
 
@@ -27,6 +28,37 @@ class ArticleActivity : AppCompatActivity() {
     var part = 0
     var targetLang = ""
     var usedDict = ""
+    //TODO need save css to another place
+    val css = """
+        <style>
+        .tooltip {
+          position: relative;
+          display: inline-block;
+          border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+          visibility: hidden;
+          width: 120px;
+          background-color: black;
+          color: #fff;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px 0;
+
+          /* Position the tooltip */
+          position: absolute;
+          z-index: 1;
+          top: 100%;
+          left: -10%;
+        }
+
+        .tooltip:hover .tooltiptext {
+          visibility: visible;
+        }
+        </style>
+
+    """.trimIndent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,21 +95,19 @@ class ArticleActivity : AppCompatActivity() {
                 webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
             }
             done()
-
-
         }
 
 
     }
 
+
     //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
-    fun fullArticle(link: String){
+    fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
         status = "loading..."
         launch {
             val res = importLang(clearText(getFullArticle(link)))
             status = "preparing..."
-            // TODO Need some parse...
             val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
             runOnUiThread {
                 webView.settings.javaScriptEnabled = false
@@ -96,57 +126,6 @@ class ArticleActivity : AppCompatActivity() {
         return fixImg(txt)
     }
 
-
-    suspend fun importLang(txt: String): String {
-        var rep = txt
-        val factor = part.toDouble() / 100
-        val words = "[\\w\\-]{2,}".toRegex().findAll(Jsoup.parse(txt).text()).map({ it.value }).sorted().distinct().toList().shuffled()
-        val toReplace = words.takeLast((words.size * factor).toInt())
-        status = "translating..."
-        val lock = Object()
-        val context: Context = getApplicationContext()
-        for (originalWord in toReplace) {
-            rep = exchange(originalWord, lock, context, rep)
-        }
-        //stage local translate
-        if (usedDict != "") {
-            Log.i("replace", "Start translate with local dict ${usedDict}")
-            rep = localTranslater(rep)
-        }
-        return rep
-    }
-
-    suspend fun exchange(originalWord: String, lock: Any, context: Context, txt: String): String {
-        var rep = txt
-        val str = defaultProvider.Translate(context, "", originalWord.toLowerCase(), targetLang)
-        var word = str
-        if (originalWord[0].isUpperCase()) {
-            word = str.capitalize()
-        }
-        synchronized(lock) {
-            Log.i("replace", "$originalWord -> $word")
-            rep = rep.replace(("([^\\w]+)(" + Pattern.quote(originalWord) + ")([^\\w]+)").toRegex(), "$1$word$3")
-        }
-        return rep
-    }
-
-    private fun localTranslater(rep: String): String {
-        var res = rep
-        val allRows = database.use {
-            select(usedDict).exec { parseList(classParser<DictRowParser>()) }
-        }
-        for (rowObj in allRows) {
-            val rowLst = rowObj.getLst()
-            //TODO update getting word for replace
-            // (exampe "word" cases: "word, ..." or ")password" )
-            if (rowLst[0] in rep) {
-                res = res.replace(rowLst[0], rowLst[1])
-                Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
-            }
-        }
-        return res
-    }
-
     var status: CharSequence = ""
         set(d) {
             val view = findViewById<TextView>(R.id.article_progress_status)
@@ -162,6 +141,149 @@ class ArticleActivity : AppCompatActivity() {
         runOnUiThread {
             findViewById<ViewGroup>(R.id.article_progress).visibility = View.GONE
         }
+    }
+
+    suspend fun importLang(rawText: String): String {
+        // Get only text-lines from strict list of tags (skip hrefs and tag attrs)
+        var goodLines = mutableListOf<AcrticlePart>()
+        val nodesLst = NodeIter(Jsoup.parse(rawText).body(), mutableListOf())
+
+        // Collect Nodes from informers
+        for (node in nodesLst) {
+            val articleObj = AcrticlePart()
+            articleObj.oldText = node.toString()
+            articleObj.newText = articleObj.oldText
+            articleObj.tagName = node.nodeName()
+            if (articleObj.oldText.trim().split(" ").size > 2) {
+                goodLines.add(articleObj)
+            }
+        }
+        // factor is optional word "%" from configs
+        val factor = part.toDouble() / 100
+
+        // Prepare random list of all available words for translate
+        val replaceWords = prepareWords(goodLines)
+        val toReplace = replaceWords.takeLast((replaceWords.size * factor).toInt())
+        status = "translating..."
+
+        // Translate
+        val importWords = massExchange(toReplace)
+        for (word in importWords) {
+            // Export back in Nodes
+            goodLines = replaceInAllNodes(word, goodLines)
+        }
+
+//        // DEBUG view
+//        for (ln in goodLines){
+//            Log.i("NEW_LINES:", ln.newText)
+//        }
+
+        // Export Nodes to the Source informer
+        var workText = css + " \n " + rawText
+        for (node in goodLines) {
+            workText = workText.replaceFirst(node.oldText, node.newText, true)
+        }
+        return workText
+    }
+
+    class ImportWord(var original: String, var lang: String, var word: String, val spell: String)
+
+    suspend fun massExchange(originalWords: List<String>): MutableList<ImportWord> {
+        val importWords = mutableListOf<ImportWord>()
+        val translateResult = defaultProvider.MassTranslate(originalWords, targetLang)
+
+        // Parse json answer from our service
+        val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
+        if (jsonResponse != null) {
+            var i = 0 // TODO TMP FIX
+            for (rs in jsonResponse) {
+                if (rs.word == "") { // TODO TMP FIX
+                    continue        // TODO TMP FIX
+                }                   // TODO TMP FIX
+                rs.original = originalWords[i].toLowerCase()  // TODO TMP FIX
+                i += 1   // TODO TMP FIX
+
+                Log.i("translate::", rs.original + "==>" + rs.word)
+
+                rs.lang = " <div class=\"tooltip\">${rs.word}<span class=\"tooltiptext\">${rs.original}\n${rs.spell}</span></div> "
+                importWords.add(rs)
+            }
+        }
+        return importWords
+    }
+
+
+    private fun localTranslater(rep: String): String {
+        var res = rep
+
+        // TODO add another way to leave if base not exist
+        if (usedDict==""){
+            return rep
+        }
+
+        val allRows = database.use {
+            select(usedDict).exec { parseList(classParser<DictRowParser>()) }
+        }
+        for (rowObj in allRows) {
+            val rowLst = rowObj.getLst()
+            val original = rowLst[0].trim().toLowerCase()
+            val import = rowLst[1].trim().toLowerCase()
+
+            if (original in rep) {
+                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),
+                   "$1${import}$3")
+                Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
+            }
+        }
+        return res
+    }
+
+    private fun replaceInAllNodes(w: ImportWord, goodLines: MutableList<AcrticlePart>): MutableList<AcrticlePart> {
+        for (node in goodLines) {
+            node.newText = node.newText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
+                    "$1${w.lang}$3")
+
+            // check in local dicts
+            node.newText = localTranslater(node.newText)
+        }
+        return goodLines
+    }
+
+
+    private fun prepareWords(articleLst: MutableList<AcrticlePart>): MutableList<String> {
+        var workText = ""
+        for (obj in articleLst) {
+            workText += obj.oldText.trim() + " "
+        }
+        val words = "[\\w\\-]{2,}".toRegex().findAll(workText).map({ it.value }).sorted().distinct().toList().shuffled()
+        val toReplace = filterWords(words)
+
+        return toReplace
+    }
+
+    private fun filterWords(words: List<String>): MutableList<String> {
+        val result = mutableListOf<String>()
+        for (w in words) {
+            if (w.trim().length > 2) {
+                result.add(w.trim())
+            }
+        }
+        return result
+    }
+
+    private fun NodeIter(srcNode: Node, lst: MutableList<Node>): MutableList<Node> {
+        var workList = lst
+        for (node in srcNode.childNodes()) {
+            val isValidParent = (node.parent().nodeName().trim() in arrayOf("div", "p", "span", "h1", "h2", "h3", "body"))
+            val isText = node.nodeName().trim() == "#text"
+
+            if (isText and isValidParent) {
+                workList.add(node)
+            } else {
+                workList = NodeIter(node, workList);
+            }
+        }
+        return workList
     }
 
 }
