@@ -77,3 +77,9 @@ class DictRowParser(val id: Int, val ref: String, val translate: String) {
         return listOf(ref, translate)
     }
 }
+
+class DictInformersParser(val name: String, val url: String) {
+    fun getLst(): List<String> {
+        return listOf(name, url)
+    }
+}
