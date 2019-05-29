@@ -100,8 +100,6 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
-
-    //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
     fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
         status = "loading..."
