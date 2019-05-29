@@ -27,7 +27,7 @@
 
         <SeekBar
             android:id="@+id/confPartBar"
-            android:max="100"
+            android:max="30"
             android:layout_margin="25dp"
             android:maxHeight="3dp"
             android:minHeight="2dp"
