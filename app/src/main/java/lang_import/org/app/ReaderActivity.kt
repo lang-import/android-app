@@ -18,11 +18,12 @@ import kotlinx.android.synthetic.main.activity_reader.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.logging.Logger
+import DictSqlHelper
 
 
 class ReaderActivity : AppCompatActivity() {
     //draft BD
-    val informersMap: HashMap<String, String> = Informers().map
+    var informersMap: HashMap<String, String> = hashMapOf()
     var informerURLList = mutableSetOf<String>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -55,6 +56,10 @@ class ReaderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
         val envInformers = env.getStringSet("informers", mutableSetOf())
+//        var obj = Informers()
+        informersMap = Informers().map
+
+//        obj.get_info()
 
         //first App Launch
         if (envInformers.isEmpty()) {
@@ -99,17 +104,6 @@ class ReaderActivity : AppCompatActivity() {
         }
 
         fun openDictsMenu() {
-            //TODO read dicts from file
-            //test dict for develop
-            val dict = HashMap<String, Any>()
-            val engl = HashMap<String, String>()
-            engl.put("hello", "привет")
-            dict.put("EnglishHH", engl)
-            //TODO dynamically generate buttons
-            for (lang in dict.keys) {
-                crtBtn(lang)
-            }
-
             val intent = Intent(this, DictActivity::class.java)
             startActivity(intent)
         }

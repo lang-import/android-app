@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Button
-import database
 import org.jetbrains.anko.db.*
 import java.lang.Exception
 import android.support.design.widget.TextInputEditText as EditTxt

@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v4.content.ContextCompat
 import android.widget.*
-import database
 import org.jetbrains.anko.db.*
 import android.widget.LinearLayout.LayoutParams as lParams
 import android.widget.TableRow.LayoutParams as tParams
