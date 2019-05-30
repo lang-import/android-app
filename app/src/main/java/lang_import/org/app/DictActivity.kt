@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.*
-import database
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.db.dropTable
 import org.jetbrains.anko.toast

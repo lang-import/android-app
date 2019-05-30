@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import database
 import org.jetbrains.anko.db.*
 import org.jetbrains.anko.startActivity as start
 
