@@ -25,46 +25,17 @@ import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
-    var part = 0
-    var targetLang = ""
-    var usedDict = ""
-    //TODO need save css to another place
-    val css = """
-        <style>
-        .tooltip {
-          position: relative;
-          display: inline-block;
-          border-bottom: 1px dotted black;
-        }
-
-        .tooltip .tooltiptext {
-          visibility: hidden;
-          width: 120px;
-          background-color: black;
-          color: #fff;
-          text-align: center;
-          border-radius: 6px;
-          padding: 5px 0;
-
-          /* Position the tooltip */
-          position: absolute;
-          z-index: 1;
-          top: 100%;
-          left: -10%;
-        }
-
-        .tooltip:hover .tooltiptext {
-          visibility: visible;
-        }
-        </style>
-
-    """.trimIndent()
+    private var part = 0
+    private var targetLang = ""
+    private var usedDict = ""
+    private val css: String
+            get() = getString(R.string.css).trimIndent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
-        usedDict = env.getString("usedDict", "")
-        targetLang = env.getString("targetLang", "en")
+        usedDict = env.getString("usedDict", "")!!
+        targetLang = env.getString("targetLang", "en")!!
         part = env.getInt("part", 0)
         setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
@@ -81,12 +52,11 @@ class ArticleActivity : AppCompatActivity() {
             fullArticle(link)
         }
 
-
         //TODO add title for ArticleActivity
-        setTitle(intent.extras.getString("title"))
+        title = intent.extras.getString("title")
         status = "loading..."
         launch {
-            val res = importLang(clearText(intent.extras.getString("discript")))
+            val res = importLang(clearText(intent.extras.getString("discript")!!))
 
             status = "preparing..."
             val content = "<html><body>${res}<br/><br/><br/><br/></body></html>"
@@ -102,7 +72,7 @@ class ArticleActivity : AppCompatActivity() {
 
 
     //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
-    fun fullArticle(link: String) {
+    private fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
         status = "loading..."
         launch {
