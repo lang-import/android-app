@@ -1,6 +1,5 @@
 package lang_import.org.app
 
-
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -80,8 +79,4 @@ class DictShowActivity : AppCompatActivity() {
 
 }
 
-class DictRowParser(val id: Int, val ref: String, val translate: String) {
-    fun getLst(): List<String> {
-        return listOf(ref, translate)
-    }
-}
+

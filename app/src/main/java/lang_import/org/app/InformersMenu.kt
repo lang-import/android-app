@@ -5,21 +5,28 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.*
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.informers_menu.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.parseList
+import org.jetbrains.anko.db.select
+import java.lang.Exception
 
 
 class InformersMenu : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    //var names = arrayOf("HABR", "Yandex.science", "mail.ru", "goha")
-    var names = ReaderActivity().informersMap.keys.toTypedArray()
+    var informersMap = ReaderActivity().informersMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
         val currentInformersList = env.getStringSet("informers", mutableSetOf())
+
+        updateInformers(readUrlDB())
+        val names = informersMap.keys.toTypedArray()
 
         setContentView(R.layout.informers_menu)
         viewManager = LinearLayoutManager(this)
@@ -62,6 +69,30 @@ class InformersMenu : AppCompatActivity() {
         }
         //TODO add title
         //setTitle(intent.extras.getString("title"))
+    }
+    private fun readUrlDB(): HashMap<String, String> {
+        val customUrls: HashMap<String, String> = hashMapOf()
+        try {
+            val allRows = database.use {
+                select(INFORMERS_DB).exec { parseList(classParser<DictRowParserUrl>()) }
+            }
+            for (row in allRows) {
+                val resLst = row.getLst()
+                customUrls[resLst[0]] = resLst[1]
+            }
+        } catch (e: Exception) {
+            Log.e("DB_ACCESS_ERROR:", e.toString())
+        }
+        return customUrls
+    }
+
+    private fun updateInformers(mp: HashMap<String, String>) {
+        for (key in mp.keys) {
+            val v = mp.get(key)
+            if (v != null) {
+                informersMap.put(key, v)
+            }
+        }
     }
 
 }

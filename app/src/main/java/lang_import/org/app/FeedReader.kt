@@ -33,8 +33,13 @@ data class Feed(@field:Element(name = "channel") var channel: Channel = Channel(
 class FeedReader(val url: String, context: Context) {
 
     suspend fun fetch(): Feed {
-        val result = async { URL(url).readText() }
-        return fixItemDate(FeedParser().parseContent(result.await()))
+        try {
+            val result = async { URL(url).readText() }
+            return fixItemDate(FeedParser().parseContent(result.await()))
+        } catch (e: java.lang.Exception) {
+            Log.e("URL_READ_ERROR:", e.toString())
+            return Feed()
+        }
     }
 
     private fun fixItemDate(feed: Feed): Feed {
