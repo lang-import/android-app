@@ -62,19 +62,30 @@ class ReaderActivity : AppCompatActivity() {
         val envInformers = env.getStringSet("informers", mutableSetOf())
         updateInformers(readUrlDB())
 
+        fun forceUpdateEnv() {
+            env.edit().putInt("dummy", 0).apply()
+            env.edit().putInt("dummy", 1).apply()
+        }
+
         //first App Launch
         if (envInformers.isEmpty()) {
             val intent = Intent(this, InformersMenu::class.java)
             startActivity(intent)
         }
+
+        //safe clear envInformers from trash
         for (informer in envInformers) {
-            Log.i("informerr", envInformers?.toString())
-            if (informersMap.containsKey(informer)) {
-                informerURLList.add(informersMap.getValue(informer))
-            } else {
+            if (!informersMap.containsKey(informer)) {
                 envInformers.remove(informer)
                 env.edit().putStringSet("informers", envInformers).apply()
-                //TODO Force update env
+                forceUpdateEnv()
+                Log.e("RM_RSS:", informer.toString())
+            }
+        }
+
+        for (informer in envInformers) {
+            if (informersMap.containsKey(informer)) {
+                informerURLList.add(informersMap.getValue(informer))
             }
         }
 
@@ -96,9 +107,6 @@ class ReaderActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        fun crtBtn(txt: String) {
-            //TODO logic
-        }
 
         fun openConfigMenu() {
             val intent = Intent(this, ConfigActivity::class.java)
@@ -126,6 +134,7 @@ class ReaderActivity : AppCompatActivity() {
             drawer_layout.closeDrawer(GravityCompat.START)
             true
         }
+
 
     }
 

@@ -66,8 +66,13 @@ class ConfigActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        customInformers.setOnClickListener {
-            val intent = Intent(this, CustomInformers::class.java)
+        customInformersAdd.setOnClickListener {
+            val intent = Intent(this, CustomInformersAdd::class.java)
+            startActivity(intent)
+        }
+
+        customInformersRm.setOnClickListener {
+            val intent = Intent(this, CustomInformersRm::class.java)
             startActivity(intent)
         }
     }
