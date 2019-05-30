@@ -68,6 +68,15 @@ class DictShowActivity : AppCompatActivity() {
             start<DictRowCreate>("dictName" to dictName)
         }
 
+        val rmBtn = Button(this)
+        rmBtn.text = "delete"
+        layout.addView(rmBtn, lParams(lParams.MATCH_PARENT, lParams.WRAP_CONTENT))
+
+        rmBtn.setOnClickListener {
+            finish()
+            start<DictRowDelete>("dictName" to dictName)
+        }
+
     }
 
 }
