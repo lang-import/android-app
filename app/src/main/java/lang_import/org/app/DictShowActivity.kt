@@ -68,6 +68,15 @@ class DictShowActivity : AppCompatActivity() {
             start<DictRowCreate>("dictName" to dictName)
         }
 
+        val rmBtn = Button(this)
+        rmBtn.text = "delete"
+        layout.addView(rmBtn, lParams(lParams.MATCH_PARENT, lParams.WRAP_CONTENT))
+
+        rmBtn.setOnClickListener {
+            finish()
+            start<DictRowDelete>("dictName" to dictName)
+        }
+
     }
 
 }
@@ -75,11 +84,5 @@ class DictShowActivity : AppCompatActivity() {
 class DictRowParser(val id: Int, val ref: String, val translate: String) {
     fun getLst(): List<String> {
         return listOf(ref, translate)
-    }
-}
-
-class DictInformersParser(val name: String, val url: String) {
-    fun getLst(): List<String> {
-        return listOf(name, url)
     }
 }

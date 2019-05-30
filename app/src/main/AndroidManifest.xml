@@ -52,6 +52,11 @@
             android:name=".DictRowCreate" android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
+
+        <activity
+            android:name=".DictRowDelete" android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+        </activity>
     </application>
 
 
