@@ -100,6 +100,7 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
+
     fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
         status = "loading..."
@@ -193,6 +194,7 @@ class ArticleActivity : AppCompatActivity() {
         // Parse json answer from our service
         val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
         if (jsonResponse != null) {
+
             for (rs in jsonResponse) {
                 if (rs.word == "") { // TODO TMP FIX
                     continue        // TODO TMP FIX
@@ -210,8 +212,10 @@ class ArticleActivity : AppCompatActivity() {
 
     private fun localTranslater(rep: String): String {
         var res = rep
+
         if (usedDict == "") {
             return rep
+
         }
         val allRows = getLocalDict()
         for (rowObj in allRows) {
@@ -220,8 +224,8 @@ class ArticleActivity : AppCompatActivity() {
             val import = rowLst[1].trim().toLowerCase()
 
             if (original in rep) {
-                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),
-                        "$1${import}$3")
+                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),"$1${import}$3")
+
                 Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
             }
         }
@@ -248,7 +252,6 @@ class ArticleActivity : AppCompatActivity() {
         for (node in goodLines) {
             node.newText = node.newText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
                     "$1${w.lang}$3")
-
             // check in local dicts
             node.newText = localTranslater(node.newText)
         }
