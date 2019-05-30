@@ -101,7 +101,6 @@ class ArticleActivity : AppCompatActivity() {
     }
 
 
-    //TODO find were we storage parsed link from FeedReader and use it link for getFullArticle(link)
     fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
         status = "loading..."
@@ -195,13 +194,11 @@ class ArticleActivity : AppCompatActivity() {
         // Parse json answer from our service
         val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
         if (jsonResponse != null) {
-            var i = 0 // TODO TMP FIX
+
             for (rs in jsonResponse) {
                 if (rs.word == "") { // TODO TMP FIX
                     continue        // TODO TMP FIX
                 }                   // TODO TMP FIX
-                rs.original = originalWords[i].toLowerCase()  // TODO TMP FIX
-                i += 1   // TODO TMP FIX
 
                 Log.i("translate::", rs.original + "==>" + rs.word)
 
@@ -216,33 +213,45 @@ class ArticleActivity : AppCompatActivity() {
     private fun localTranslater(rep: String): String {
         var res = rep
 
-        // TODO add another way to leave if base not exist
-        if (usedDict==""){
+        if (usedDict == "") {
             return rep
-        }
 
-        val allRows = database.use {
-            select(usedDict).exec { parseList(classParser<DictRowParser>()) }
         }
+        val allRows = getLocalDict()
         for (rowObj in allRows) {
             val rowLst = rowObj.getLst()
             val original = rowLst[0].trim().toLowerCase()
             val import = rowLst[1].trim().toLowerCase()
 
             if (original in rep) {
-                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),
-                   "$1${import}$3")
+                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),"$1${import}$3")
+
                 Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
             }
         }
         return res
     }
 
+    private fun getLocalDict(): List<DictRowParser> {
+        var allRows: List<DictRowParser> = emptyList()
+        try {
+            val allRows = database.use {
+                select(usedDict).exec { parseList(classParser<DictRowParser>()) }
+            }
+            return allRows
+        } catch (e: Exception) {
+            Log.e("LocalDictError:", e.toString())
+            val env = PreferenceManager.getDefaultSharedPreferences(this)
+            usedDict = "" //local clear
+            env.edit().putString("usedDict", "").apply() //env clear
+        }
+        return allRows
+    }
+
     private fun replaceInAllNodes(w: ImportWord, goodLines: MutableList<AcrticlePart>): MutableList<AcrticlePart> {
         for (node in goodLines) {
             node.newText = node.newText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
                     "$1${w.lang}$3")
-
             // check in local dicts
             node.newText = localTranslater(node.newText)
         }
