@@ -14,6 +14,7 @@ import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import lang_import.org.app.sites.fetchContent
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
@@ -27,37 +28,8 @@ class ArticleActivity : AppCompatActivity() {
     var part = 0
     var targetLang = ""
     var usedDict = ""
-    //TODO need save css to another place
-    val css = """
-        <style>
-        .tooltip {
-          position: relative;
-          display: inline-block;
-          border-bottom: 1px dotted black;
-        }
-
-        .tooltip .tooltiptext {
-          visibility: hidden;
-          width: 120px;
-          background-color: black;
-          color: #fff;
-          text-align: center;
-          border-radius: 6px;
-          padding: 5px 0;
-
-          /* Position the tooltip */
-          position: absolute;
-          z-index: 1;
-          top: 100%;
-          left: -10%;
-        }
-
-        .tooltip:hover .tooltiptext {
-          visibility: visible;
-        }
-        </style>
-
-    """.trimIndent()
+    private val css: String
+        get() = getString(R.string.css).trimIndent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,8 +88,7 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     suspend fun getFullArticle(url: String): String {
-        val result = async { URL(url).readText() }
-        return result.await()
+        return fetchContent(url).html()
     }
 
     fun clearText(txt: String): String {
