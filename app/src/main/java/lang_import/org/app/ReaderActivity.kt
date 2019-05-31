@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.preference.PreferenceManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -17,12 +18,16 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_reader.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.parseList
+import org.jetbrains.anko.db.select
+import java.lang.Exception
 import java.util.logging.Logger
 
 
 class ReaderActivity : AppCompatActivity() {
     //draft BD
-    val informersMap: HashMap<String, String> = Informers().map
+    var informersMap: HashMap<String, String> = Informers().map
     var informerURLList = mutableSetOf<String>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -55,19 +60,32 @@ class ReaderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
         val envInformers = env.getStringSet("informers", mutableSetOf())
+        updateInformers(readUrlDB())
+
+        fun forceUpdateEnv() {
+            env.edit().putInt("dummy", 0).apply()
+            env.edit().putInt("dummy", 1).apply()
+        }
 
         //first App Launch
         if (envInformers.isEmpty()) {
             val intent = Intent(this, InformersMenu::class.java)
             startActivity(intent)
         }
+
+        //safe clear envInformers from trash
+        for (informer in envInformers) {
+            if (!informersMap.containsKey(informer)) {
+                envInformers.remove(informer)
+                env.edit().putStringSet("informers", envInformers).apply()
+                forceUpdateEnv()
+                Log.e("RM_RSS:", informer.toString())
+            }
+        }
+
         for (informer in envInformers) {
             if (informersMap.containsKey(informer)) {
                 informerURLList.add(informersMap.getValue(informer))
-            } else {
-                envInformers.remove(informer)
-                env.edit().putStringSet("informers", envInformers).apply()
-                //TODO Force update env
             }
         }
 
@@ -89,9 +107,6 @@ class ReaderActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        fun crtBtn(txt: String) {
-            //TODO logic
-        }
 
         fun openConfigMenu() {
             val intent = Intent(this, ConfigActivity::class.java)
@@ -99,17 +114,6 @@ class ReaderActivity : AppCompatActivity() {
         }
 
         fun openDictsMenu() {
-            //TODO read dicts from file
-            //test dict for develop
-            val dict = HashMap<String, Any>()
-            val engl = HashMap<String, String>()
-            engl.put("hello", "привет")
-            dict.put("EnglishHH", engl)
-            //TODO dynamically generate buttons
-            for (lang in dict.keys) {
-                crtBtn(lang)
-            }
-
             val intent = Intent(this, DictActivity::class.java)
             startActivity(intent)
         }
@@ -131,11 +135,38 @@ class ReaderActivity : AppCompatActivity() {
             true
         }
 
+
     }
 
     private fun Context.toast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
+
+    private fun readUrlDB(): HashMap<String, String> {
+        val customUrls: HashMap<String, String> = hashMapOf()
+        try {
+            val allRows = database.use {
+                select(INFORMERS_DB).exec { parseList(classParser<DictRowParserUrl>()) }
+            }
+            for (row in allRows) {
+                val resLst = row.getLst()
+                customUrls[resLst[0]] = resLst[1]
+            }
+        } catch (e: Exception) {
+            Log.e("DB_ACCESS_ERROR:", e.toString())
+        }
+        return customUrls
+    }
+
+    private fun updateInformers(mp: HashMap<String, String>) {
+        for (key in mp.keys) {
+            val v = mp.get(key)
+            if (v != null) {
+                informersMap.put(key, v)
+            }
+        }
+    }
+
 
     fun update(context: Context) {
         var allFeed = Feed()
@@ -176,6 +207,7 @@ class ReaderActivity : AppCompatActivity() {
                 findViewById<ViewGroup>(R.id.reader_progress).visibility = View.VISIBLE
             }
 
+            field = d
         }
 
     fun done() {

@@ -24,6 +24,5 @@ class DictSqlHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "translateDicts
     }
 
 }
-val Context.database: DictSqlHelper
-    get() = DictSqlHelper.getInstance(applicationContext)
+
 
