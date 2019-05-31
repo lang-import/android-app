@@ -14,6 +14,7 @@ import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import lang_import.org.app.sites.fetchContent
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
@@ -87,8 +88,7 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     suspend fun getFullArticle(url: String): String {
-        val result = async { URL(url).readText() }
-        return result.await()
+        return fetchContent(url).html()
     }
 
     fun clearText(txt: String): String {
