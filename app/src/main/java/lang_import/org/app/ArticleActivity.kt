@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.TextView
 import com.beust.klaxon.Klaxon
-import database
 import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

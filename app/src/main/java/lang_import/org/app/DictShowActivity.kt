@@ -1,13 +1,11 @@
 package lang_import.org.app
 
-
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v4.content.ContextCompat
 import android.widget.*
-import database
 import org.jetbrains.anko.db.*
 import android.widget.LinearLayout.LayoutParams as lParams
 import android.widget.TableRow.LayoutParams as tParams
@@ -81,8 +79,4 @@ class DictShowActivity : AppCompatActivity() {
 
 }
 
-class DictRowParser(val id: Int, val ref: String, val translate: String) {
-    fun getLst(): List<String> {
-        return listOf(ref, translate)
-    }
-}
+
