@@ -10,26 +10,39 @@
         android:orientation="vertical">
 
         <!--EXAMPLE BUTTONS -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/informers"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="@string/cfg_informers" />
+            android:text="@string/cfg_informers"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="#303F9F"
+            android:textColorLink="#8C9EFF" />
 
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/customInformersAdd"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="@string/cfg_rss_add" />
+            android:text="@string/cfg_rss_add"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="#303F9F"
+            android:textColorLink="#8C9EFF" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/customInformersRm"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="@string/cfg_rss_rm" />
+            android:text="@string/cfg_rss_rm"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="#303F9F"
+            android:textColorLink="#8C9EFF" />
 
         <TextView
             android:id="@+id/visualPercent"
