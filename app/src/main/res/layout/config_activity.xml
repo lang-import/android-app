@@ -15,21 +15,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="Источники новостей" />
+            android:text="@string/cfg_informers" />
 
         <Button
             android:id="@+id/customInformersAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="добавить rss" />
+            android:text="@string/cfg_rss_add" />
 
         <Button
             android:id="@+id/customInformersRm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="delete rss" />
+            android:text="@string/cfg_rss_rm" />
 
         <TextView
             android:id="@+id/visualPercent"

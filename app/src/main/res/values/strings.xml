@@ -44,4 +44,20 @@
         }
 </style>
 ]]></string>
+    <string name="cfg_informers">Источники новостей</string>
+    <string name="cfg_rss_add">добавить rss</string>
+    <string name="cfg_rss_rm">delete rss</string>
+    <string name="loading">loading…</string>
+    <string name="url_hint">URL</string>
+    <string name="ok">Готово</string>
+    <string name="name">Name</string>
+    <string name="delete">Delete</string>
+    <string name="make_dict">Создать словарь</string>
+    <string name="pls_enter_name_dict">Введите имя словаря</string>
+    <string name="orig_hint">Оригинал</string>
+    <string name="translate_hint">Перевод</string>
+    <string name="orig">Оригинал</string>
+    <string name="translate">Перевод</string>
+    <string name="src_txt">Исходный текст</string>
+    <string name="sample_title">Sample title</string>
 </resources>

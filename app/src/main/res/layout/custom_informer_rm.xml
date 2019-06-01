@@ -17,7 +17,7 @@
                 android:id="@+id/informerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name" />
+                android:hint="@string/name" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Delete" />
+            android:text="@string/delete" />
 
     </LinearLayout>
 </ScrollView>
