@@ -1,10 +1,10 @@
 package lang_import.org.app
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v4.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.ContextCompat
 import android.widget.*
 import org.jetbrains.anko.db.*
 import android.widget.LinearLayout.LayoutParams as lParams
