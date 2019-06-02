@@ -60,4 +60,6 @@
     <string name="translate">Перевод</string>
     <string name="src_txt">Исходный текст</string>
     <string name="sample_title">Sample title</string>
+    <string name="ms">2dp</string>
+    <string name="bs">20dp</string>
 </resources>
