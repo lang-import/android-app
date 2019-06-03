@@ -77,7 +77,7 @@ class DictShowActivity : AppCompatActivity() {
 
     }
 
-    fun generateHollowBtn(ctx: Context, name: String): MaterialButton {
+    private fun generateHollowBtn(ctx: Context, name: String): MaterialButton {
         val btn = MaterialButton(ctx)
         TextViewCompat.setTextAppearance(btn, R.style.Widget_MaterialComponents_Button)
 
@@ -100,5 +100,4 @@ class DictShowActivity : AppCompatActivity() {
     }
 
 }
-
 
