@@ -5,7 +5,7 @@ import org.jsoup.nodes.Element
 import java.net.URL
 
 fun fallback(url: String): Element {
-    return Jsoup.parse(URL(url).readText()).parent()
+    return Jsoup.parse(URL(url).readText())
 }
 
 fun mailRu(url: String): Element {

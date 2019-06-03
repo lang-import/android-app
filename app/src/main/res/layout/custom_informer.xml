@@ -17,7 +17,7 @@
                 android:id="@+id/informerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name" />
+                android:hint="@string/name" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -29,7 +29,7 @@
                 android:id="@+id/urlSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="URL" />
+                android:hint="@string/url_hint" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Готово" />
+            android:text="@string/ok" />
 
     </LinearLayout>
 </ScrollView>

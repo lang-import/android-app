@@ -16,7 +16,7 @@
                 android:id="@+id/newRef"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Оригинал" />
+                android:hint="@string/orig_hint" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -27,7 +27,7 @@
                 android:id="@+id/newTranslate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Перевод" />
+                android:hint="@string/translate_hint" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Готово" />
+            android:text="@string/ok" />
 
     </LinearLayout>
 </ScrollView>

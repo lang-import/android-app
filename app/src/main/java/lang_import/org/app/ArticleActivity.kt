@@ -87,7 +87,7 @@ class ArticleActivity : AppCompatActivity() {
         }
     }
 
-    suspend fun getFullArticle(url: String): String {
+    fun getFullArticle(url: String): String {
         return fetchContent(url).html()
     }
 
@@ -150,7 +150,7 @@ class ArticleActivity : AppCompatActivity() {
         // Export Nodes to the Source informer
         var workText = css + " \n " + rawText
         for (node in goodLines) {
-            workText = workText.replaceFirst(node.oldText, node.newText, true)
+            workText = workText.replaceFirst(node.oldText.trim(), node.newText, true)
         }
         return workText
     }
