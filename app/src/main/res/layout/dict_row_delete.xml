@@ -40,6 +40,5 @@
             app:strokeColor="@color/stroke"
             app:strokeWidth="2dp" />
 
-
     </LinearLayout>
 </ScrollView>
