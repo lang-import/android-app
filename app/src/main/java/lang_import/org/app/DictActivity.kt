@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
 import org.jetbrains.anko.alert
@@ -88,10 +89,17 @@ class DictActivity : AppCompatActivity() {
                     refresh()
                 }
 
-                alert("Вы действительно хотите удалить словарь ${item}", "Внимание") {
-                    positiveButton("Да") { dltDB() }
-                    negativeButton("Нет") { }
-                }.show()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Внимание!")
+                builder.setMessage("Вы действительно хотите удалить словарь ${item}?")
+                builder.setPositiveButton("Да"){dialog, which ->
+                    dltDB()
+                    Toast.makeText(applicationContext,"Словарь ${item} удален.",Toast.LENGTH_SHORT).show()
+                }
+                builder.setNegativeButton("Нет"){dialog,which ->
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
             }
 
             choose.setOnClickListener {
