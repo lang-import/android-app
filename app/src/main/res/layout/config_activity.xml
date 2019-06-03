@@ -10,26 +10,87 @@
         android:orientation="vertical">
 
         <!--EXAMPLE BUTTONS -->
-        <Button
+        <!--<com.google.android.material.button.MaterialButton-->
+        <!--android:id="@+id/informers"-->
+        <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:text="@string/cfg_informers"-->
+        <!--android:textAppearance="@style/TextAppearance.MaterialComponents.Button"-->
+        <!--android:textColor="#303F9F"-->
+        <!--android:textColorLink="#8C9EFF" />-->
+
+
+        <!--<com.google.android.material.button.MaterialButton-->
+        <!--android:id="@+id/customInformersAdd"-->
+        <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:text="@string/cfg_rss_add"-->
+        <!--android:textAppearance="@style/TextAppearance.MaterialComponents.Button"-->
+        <!--android:textColor="#303F9F"-->
+        <!--android:textColorLink="#8C9EFF" />-->
+
+        <!--<com.google.android.material.button.MaterialButton-->
+        <!--android:id="@+id/customInformersRm"-->
+        <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:text="@string/cfg_rss_rm"-->
+        <!--android:textAppearance="@style/TextAppearance.MaterialComponents.Button"-->
+        <!--android:textColor="#303F9F"-->
+        <!--android:textColorLink="#8C9EFF" />-->
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/informers"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/cfg_informers" />
+            android:layout_gravity="center"
+            android:text="@string/cfg_informers"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/hard_dark"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/light_blue"
+            app:cornerRadius="20dp"
+            app:rippleColor="@color/dark_pointer"
+            app:strokeColor="@color/stroke"
+            app:strokeWidth="2dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/customInformersAdd"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/cfg_rss_add" />
+            android:layout_gravity="center"
+            android:text="@string/cfg_rss_add"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/hard_dark"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/light_blue"
+            app:cornerRadius="20dp"
+            app:rippleColor="@color/dark_pointer"
+            app:strokeColor="@color/stroke"
+            app:strokeWidth="2dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/customInformersRm"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/cfg_rss_rm" />
+            android:layout_gravity="center"
+            android:text="@string/cfg_rss_rm"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            android:textColor="@color/hard_dark"
+            android:textColorHighlight="@color/blue"
+            android:textColorLink="@color/light_blue"
+            app:cornerRadius="20dp"
+            app:rippleColor="@color/dark_pointer"
+            app:strokeColor="@color/stroke"
+            app:strokeWidth="2dp" />
 
         <TextView
             android:id="@+id/visualPercent"
