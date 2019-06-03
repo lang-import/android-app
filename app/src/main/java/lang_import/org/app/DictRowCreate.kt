@@ -1,12 +1,12 @@
 package lang_import.org.app
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import org.jetbrains.anko.db.*
-import android.support.design.widget.TextInputEditText as EditTxt
+import com.google.android.material.textfield.TextInputEditText as EditTxt
 import org.jetbrains.anko.startActivity as start
 
 

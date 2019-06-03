@@ -1,13 +1,16 @@
 package lang_import.org.app
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.widget.*
+import androidx.core.widget.TextViewCompat
+import com.google.android.material.button.MaterialButton
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.db.dropTable
 import org.jetbrains.anko.toast
@@ -39,22 +42,22 @@ class DictActivity : AppCompatActivity() {
 
 
         for (item in dictsList) {
-            val choose = Button(this)
-            val crtBtn = Button(this)
-            val dltBtn = Button(this)
+            val choose = generateHollowBtn(this, "use")
+            val crtBtn = generateHollowBtn(this, item)
+            val dltBtn = generateHollowBtn(this, "Del")
+
             val subll = LinearLayout(this)
             val layout = findViewById(R.id.custom_dicts_layout) as LinearLayout
             val width = lParams.MATCH_PARENT
             val height = lParams.WRAP_CONTENT
             val params = lParams(width, height)
 
+
+
             choose.setLayoutParams(tParams(width, height, 3f))
-            crtBtn.setLayoutParams(tParams(width, height, 1f))
+            crtBtn.setLayoutParams(tParams(width, height, 2f))
             dltBtn.setLayoutParams(tParams(width, height, 3f))
 
-            choose.text = "use"
-            crtBtn.text = item
-            dltBtn.text = "Del"
 
             //Build buttons string
             subll.addView(choose)
@@ -95,11 +98,11 @@ class DictActivity : AppCompatActivity() {
                 val usedDict = env.getString("usedDict", "")
                 if (usedDict.trim() != item) {
                     env.edit().putString("usedDict", item.trim()).apply()
-                    Log.i("local_dicts","enable local dict  ${item}")
+                    Log.i("local_dicts", "enable local dict  ${item}")
                     toast("Активирован словарь ${item}")
                 } else {
                     env.edit().putString("usedDict", "").apply()
-                    Log.i("local_dicts","disable local dict ${item}")
+                    Log.i("local_dicts", "disable local dict ${item}")
                     toast("Словарь не используется")
                 }
             }
@@ -112,6 +115,26 @@ class DictActivity : AppCompatActivity() {
             finish()
             start<DictCreateActivity>()
         }
+    }
+
+    private fun generateHollowBtn(ctx: Context, name: String): MaterialButton {
+        val btn = MaterialButton(ctx)
+        val hard_dark = getResources().getColor(R.color.hard_dark)
+        val blue = getResources().getColor(R.color.blue)
+        val light_blue = getResources().getColor(R.color.light_blue)
+        val hollow = getResources().getColor(R.color.hollow)
+
+        btn.text = name
+
+        btn.cornerRadius = R.string.bs
+        btn.highlightColor = blue
+        btn.setTextColor(hard_dark)
+        btn.setLinkTextColor(light_blue)
+        btn.setRippleColorResource(R.color.dark_pointer)
+        btn.setBackgroundColor(hollow)
+
+
+        return btn
     }
 
 
