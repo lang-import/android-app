@@ -62,4 +62,9 @@
     <string name="sample_title">Sample title</string>
     <string name="ms">2dp</string>
     <string name="bs">20dp</string>
+    <string name="alert_title">Внимание!</string>
+    <string name="alert_question">Вы действительно хотите удалить словарь</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="dct_dlt">Словарь удален.</string>
 </resources>

@@ -103,7 +103,7 @@ class FeedReader(val url: String, context: Context) {
         new.channel.item.addAll(old.channel.item)
         //sort items by Date
         new.channel.item = new.channel.item.sortedWith(compareBy({ it.pubDate })).toMutableList().asReversed()
-        Log.i("[finnnn]:", new.channel.item.toString())
+        
         return new
     }
 }
