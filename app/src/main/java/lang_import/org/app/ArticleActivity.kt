@@ -19,6 +19,7 @@ import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Node
+import java.util.*
 import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class ArticleActivity : AppCompatActivity() {
     var part = 0
     var targetLang = ""
     var usedDict = ""
+    var back_url = ""
     private val css: String
         get() = getString(R.string.css).trimIndent()
 
@@ -38,6 +40,12 @@ class ArticleActivity : AppCompatActivity() {
         setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
         val webView = findViewById<WebView>(R.id.article_description)
+
+        // Read config
+        val raw_pth = getResources().openRawResource(R.raw.config)
+        val properties = Properties()
+        properties.load(raw_pth)
+        back_url = properties.getProperty("back_url")
 
         back_btn.setOnClickListener { view ->
             this.finish()
@@ -152,7 +160,7 @@ class ArticleActivity : AppCompatActivity() {
 
     suspend fun massExchange(originalWords: List<String>): MutableList<ImportWord> {
         val importWords = mutableListOf<ImportWord>()
-        val translateResult = defaultProvider.MassTranslate(originalWords, targetLang)
+        val translateResult = defaultProvider(back_url).MassTranslate(originalWords, targetLang)
 
         // Parse json answer from our service
         val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
