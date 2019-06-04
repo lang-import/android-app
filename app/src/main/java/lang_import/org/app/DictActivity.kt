@@ -90,13 +90,14 @@ class DictActivity : AppCompatActivity() {
                 }
 
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Внимание!")
-                builder.setMessage("Вы действительно хотите удалить словарь ${item}?")
-                builder.setPositiveButton("Да"){dialog, which ->
+                builder.setTitle(getString(R.string.alert_title).trimIndent())
+                builder.setMessage(getString(R.string.alert_question).trimIndent() + " ${item} ?")
+                builder.setPositiveButton(getString(R.string.yes).trimIndent()){dialog, which ->
                     dltDB()
-                    Toast.makeText(applicationContext,"Словарь ${item} удален.",Toast.LENGTH_SHORT).show()
+                    val msg = getString(R.string.dct_dlt).trimIndent()
+                    Toast.makeText(applicationContext,"${item} - ${msg}",Toast.LENGTH_SHORT).show()
                 }
-                builder.setNegativeButton("Нет"){dialog,which ->
+                builder.setNegativeButton(getString(R.string.no).trimIndent()){dialog,which ->
                 }
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
