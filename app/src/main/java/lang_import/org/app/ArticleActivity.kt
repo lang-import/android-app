@@ -12,7 +12,6 @@ import android.webkit.WebView
 import android.widget.TextView
 import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.article_activity.*
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import lang_import.org.app.sites.fetchContent
 import org.jetbrains.anko.db.classParser
@@ -20,7 +19,6 @@ import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Node
-import java.net.URL
 import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
@@ -55,7 +53,7 @@ class ArticleActivity : AppCompatActivity() {
 
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
-        status = "loading..."
+        status = getString(R.string.loading).trimIndent()
         launch {
             val res = importLang(clearText(intent.extras.getString("discript")))
 
@@ -74,7 +72,7 @@ class ArticleActivity : AppCompatActivity() {
 
     fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
-        status = "loading..."
+        status = getString(R.string.loading).trimIndent()
         launch {
             val res = importLang(clearText(getFullArticle(link)))
             status = "preparing..."
@@ -141,11 +139,6 @@ class ArticleActivity : AppCompatActivity() {
             // Export back in Nodes
             goodLines = replaceInAllNodes(word, goodLines)
         }
-
-//        // DEBUG view
-//        for (ln in goodLines){
-//            Log.i("NEW_LINES:", ln.newText)
-//        }
 
         // Export Nodes to the Source informer
         var workText = css + " \n " + rawText
