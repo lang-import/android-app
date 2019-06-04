@@ -44,6 +44,7 @@ class FeedReader(val url: String, context: Context) {
         }
     }
 
+    //TODO we can make it more safe, mb we should use time()
     //Crop date format to create mixed format type
     private fun fixItemDate(feed: Feed): Feed {
         for (item in feed.channel.item) {
