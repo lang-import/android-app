@@ -9,6 +9,8 @@ import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import org.simpleframework.xml.core.Persister
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @Root(name = "item", strict = false)
@@ -42,6 +44,7 @@ class FeedReader(val url: String, context: Context) {
         }
     }
 
+    //Crop date format to create mixed format type
     private fun fixItemDate(feed: Feed): Feed {
         for (item in feed.channel.item) {
             val dt = item.pubDate.trim()
@@ -50,18 +53,56 @@ class FeedReader(val url: String, context: Context) {
             if (firstWord.length > 2) {
                 item.pubDate = dt.replace(firstWord, "").trim()
             }
+
+            // Remove year
+            val year = Calendar.getInstance().get(Calendar.YEAR).toString()
+            item.pubDate = item.pubDate.replace(year, "").trim()
+
+            // cast to str: Month-Day-Time(hh:mm:ss)
+            item.pubDate = getMDT(item.pubDate)
         }
         return feed
     }
 
+    private fun getMDT(pubDate: String): String {
+        var dt = pubDate
+        try {
+            val dateFields = pubDate.trim().split(" ")
+            var tm = "00:00:00"
+            for (field in dateFields) {
+                if (":" in field) {
+                    tm = field.trim()
+                }
+            }
+
+            val month = castMonth(dateFields[1].toLowerCase())
+
+            dt = "${month}-${dateFields[0]}-${tm}"
+
+        } catch (e: Exception) {
+            Log.e("[DATE_SORT_ERR]:", e.toString())
+        }
+        return dt
+    }
+
+    private fun castMonth(month: String): String {
+        var m = month
+        val months = hashMapOf<String, String>("jan" to "01", "feb" to "02", "mar" to "03", "apr" to "04", "may" to "05", "jun" to "06",
+                "jul" to "07", "aug" to "08", "sep" to "09", "oct" to "10", "nov" to "11", "dec" to "12")
+        if (m in months.keys) {
+            m = months[m].toString()
+        }
+        return m
+    }
+
     fun merge(old: Feed, new: Feed): Feed {
         if (old.channel.title != "") {
-            //TODO Some merge for names
             new.channel.title = "Все новости"
         }
         new.channel.item.addAll(old.channel.item)
         //sort items by Date
         new.channel.item = new.channel.item.sortedWith(compareBy({ it.pubDate })).toMutableList().asReversed()
+        Log.i("[finnnn]:", new.channel.item.toString())
         return new
     }
 }
