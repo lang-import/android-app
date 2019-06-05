@@ -45,13 +45,13 @@
 </style>
 ]]></string>
     <string name="cfg_informers">Источники новостей</string>
-    <string name="cfg_rss_add">добавить rss</string>
-    <string name="cfg_rss_rm">delete rss</string>
+    <string name="cfg_rss_add">Добавить rss</string>
+    <string name="cfg_rss_rm">Удалить rss</string>
     <string name="loading">loading…</string>
     <string name="url_hint">URL</string>
     <string name="ok">Готово</string>
-    <string name="name">Name</string>
-    <string name="delete">Delete</string>
+    <string name="name">Имя</string>
+    <string name="delete">Удалить</string>
     <string name="make_dict">Создать словарь</string>
     <string name="pls_enter_name_dict">Введите имя словаря</string>
     <string name="orig_hint">Оригинал</string>

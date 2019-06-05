@@ -9,14 +9,6 @@
         android:title="@string/action_conf"
         />
     <item
-        android:id="@+id/action_wcolor"
-        android:title="@string/action_wcolor"
-        />
-    <item
-        android:id="@+id/action_bcolor"
-        android:title="@string/action_bcolor"
-        />
-    <item
         android:id="@+id/about"
         android:title="@string/about_btn"
         />
