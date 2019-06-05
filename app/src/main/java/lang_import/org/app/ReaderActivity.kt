@@ -122,12 +122,6 @@ class ReaderActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.action_lang -> openDictsMenu()
                 R.id.action_conf -> openConfigMenu()
-                R.id.action_wcolor -> {
-                    drawer_layout.setBackgroundColor(Color.WHITE)
-                }
-                R.id.action_bcolor -> {
-                    drawer_layout.setBackgroundColor(Color.BLACK)
-                }
                 R.id.about -> {
                     val intent = Intent(this, AboutActivity::class.java)
                     startActivity(intent)

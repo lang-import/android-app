@@ -80,6 +80,6 @@
          -volley = https://github.com/google/volley \n
          -simplexml = https://github.com/ngallagher/simplexml \n
     </string>
-    <string name="about_btn">about</string>
+    <string name="about_btn">О приложении</string>
     <string name="hollow" />
 </resources>

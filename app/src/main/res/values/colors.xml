@@ -12,4 +12,5 @@
     <color name="stroke">#4F7DA5</color>
     <color name="hard_dark">#243179</color>
     <color name="hollow">#00ffffff</color>
+    <color name="side_menu_back">#FAFFFFFF</color>
 </resources>
