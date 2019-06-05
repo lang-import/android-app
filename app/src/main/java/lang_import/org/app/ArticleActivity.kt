@@ -12,7 +12,6 @@ import android.webkit.WebView
 import android.widget.TextView
 import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.article_activity.*
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import lang_import.org.app.sites.fetchContent
 import org.jetbrains.anko.db.classParser
@@ -20,7 +19,7 @@ import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Node
-import java.net.URL
+import java.util.*
 import java.util.regex.Pattern
 
 class ArticleActivity : AppCompatActivity() {
@@ -28,6 +27,7 @@ class ArticleActivity : AppCompatActivity() {
     var part = 0
     var targetLang = ""
     var usedDict = ""
+    var back_url = ""
     private val css: String
         get() = getString(R.string.css).trimIndent()
 
@@ -40,6 +40,12 @@ class ArticleActivity : AppCompatActivity() {
         setContentView(R.layout.article_activity)
         viewManager = LinearLayoutManager(this)
         val webView = findViewById<WebView>(R.id.article_description)
+
+        // Read config
+        val raw_pth = getResources().openRawResource(R.raw.config)
+        val properties = Properties()
+        properties.load(raw_pth)
+        back_url = properties.getProperty("back_url")
 
         back_btn.setOnClickListener { view ->
             this.finish()
@@ -55,7 +61,7 @@ class ArticleActivity : AppCompatActivity() {
 
         //TODO add title for ArticleActivity
         setTitle(intent.extras.getString("title"))
-        status = "loading..."
+        status = getString(R.string.loading).trimIndent()
         launch {
             val res = importLang(clearText(intent.extras.getString("discript")))
 
@@ -74,7 +80,7 @@ class ArticleActivity : AppCompatActivity() {
 
     fun fullArticle(link: String) {
         val webView = findViewById<WebView>(R.id.article_description)
-        status = "loading..."
+        status = getString(R.string.loading).trimIndent()
         launch {
             val res = importLang(clearText(getFullArticle(link)))
             status = "preparing..."
@@ -142,11 +148,6 @@ class ArticleActivity : AppCompatActivity() {
             goodLines = replaceInAllNodes(word, goodLines)
         }
 
-//        // DEBUG view
-//        for (ln in goodLines){
-//            Log.i("NEW_LINES:", ln.newText)
-//        }
-
         // Export Nodes to the Source informer
         var workText = css + " \n " + rawText
         for (node in goodLines) {
@@ -159,7 +160,7 @@ class ArticleActivity : AppCompatActivity() {
 
     suspend fun massExchange(originalWords: List<String>): MutableList<ImportWord> {
         val importWords = mutableListOf<ImportWord>()
-        val translateResult = defaultProvider.MassTranslate(originalWords, targetLang)
+        val translateResult = defaultProvider(back_url).MassTranslate(originalWords, targetLang)
 
         // Parse json answer from our service
         val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)

@@ -92,12 +92,12 @@ class DictActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle(getString(R.string.alert_title).trimIndent())
                 builder.setMessage(getString(R.string.alert_question).trimIndent() + " ${item} ?")
-                builder.setPositiveButton(getString(R.string.yes).trimIndent()){dialog, which ->
+                builder.setPositiveButton(getString(R.string.yes).trimIndent()) { dialog, which ->
                     dltDB()
                     val msg = getString(R.string.dct_dlt).trimIndent()
-                    Toast.makeText(applicationContext,"${item} - ${msg}",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "${item} - ${msg}", Toast.LENGTH_SHORT).show()
                 }
-                builder.setNegativeButton(getString(R.string.no).trimIndent()){dialog,which ->
+                builder.setNegativeButton(getString(R.string.no).trimIndent()) { dialog, which ->
                 }
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
@@ -108,18 +108,16 @@ class DictActivity : AppCompatActivity() {
                 if (usedDict.trim() != item) {
                     env.edit().putString("usedDict", item.trim()).apply()
                     Log.i("local_dicts", "enable local dict  ${item}")
-                    toast("Активирован словарь ${item}")
+                    toast(getString(R.string.dic_used).trimIndent() + ": ${item}")
                 } else {
                     env.edit().putString("usedDict", "").apply()
                     Log.i("local_dicts", "disable local dict ${item}")
-                    toast("Словарь не используется")
+                    toast(getString(R.string.dic_not_used).trimIndent())
+
                 }
             }
         }
 
-
-        //TODO add title
-        //setTitle(intent.extras.getString("title"))
         newBtn.setOnClickListener {
             finish()
             start<DictCreateActivity>()

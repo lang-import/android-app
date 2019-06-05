@@ -171,7 +171,7 @@ class ReaderActivity : AppCompatActivity() {
     fun update(context: Context) {
         var allFeed = Feed()
         //setTitle("loading ${reader.url}...")
-        status = "loading..."
+        status = getString(R.string.loading).trimIndent()
         launch {
             for (reader in readerList) {
                 val feed = async { FeedReader(reader.url, context).fetch() }

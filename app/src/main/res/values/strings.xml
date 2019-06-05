@@ -67,4 +67,6 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="dct_dlt">Словарь удален.</string>
+    <string name="dic_not_used">Словарь не используется</string>
+    <string name="dic_used">Активирован словарь</string>
 </resources>
