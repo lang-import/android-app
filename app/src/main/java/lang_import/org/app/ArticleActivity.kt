@@ -167,9 +167,9 @@ class ArticleActivity : AppCompatActivity() {
         if (jsonResponse != null) {
 
             for (rs in jsonResponse) {
-                if (rs.word == "") { // TODO TMP FIX
-                    continue        // TODO TMP FIX
-                }                   // TODO TMP FIX
+                if (rs.word == "") {
+                    continue
+                }
 
                 Log.i("translate::", rs.original + "==>" + rs.word)
 
