@@ -16,4 +16,8 @@
         android:id="@+id/action_bcolor"
         android:title="@string/action_bcolor"
         />
+    <item
+        android:id="@+id/about"
+        android:title="@string/about_btn"
+        />
 </menu>

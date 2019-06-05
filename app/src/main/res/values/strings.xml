@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LangImport</string>
+    <string name="app_name">Lang Import</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_lang">Настройки словарей</string>
@@ -69,4 +69,17 @@
     <string name="dct_dlt">Словарь удален.</string>
     <string name="dic_not_used">Словарь не используется</string>
     <string name="dic_used">Активирован словарь</string>
+    <string name="about">Credits  We want to thank those projects greatly: it\'s very hard or even impossible to make our system without them.\n\n
+        Used repositories:\n
+         -material-components-android  = https://github.com/material-components/material-components-android \n
+         -anko = https://github.com/Kotlin/anko \n
+         -klaxon = https://github.com/cbeust/klaxon \n
+         -jsoup = https://github.com/jhy/jsoup \n
+         -picasso = https://github.com/square/picasso \n
+         -junit4 = https://github.com/junit-team/junit4 \n
+         -volley = https://github.com/google/volley \n
+         -simplexml = https://github.com/ngallagher/simplexml \n
+    </string>
+    <string name="about_btn">about</string>
+    <string name="hollow" />
 </resources>
