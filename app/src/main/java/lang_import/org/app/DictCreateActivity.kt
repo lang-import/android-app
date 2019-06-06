@@ -25,7 +25,7 @@ class DictCreateActivity : AppCompatActivity() {
         val completeBtn = findViewById<Button>(R.id.dict_complete)
         val txtInput = findViewById<EditText>(R.id.newDictName)
 
-        //TODO this is repeate need create common function
+        //TODO common
         fun forceUpdateEnv() {
             env.edit().putInt("dummy", 0).apply()
             env.edit().putInt("dummy", 1).apply()

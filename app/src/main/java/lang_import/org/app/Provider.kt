@@ -10,22 +10,22 @@ interface TranslateProvider {
 }
 
 
-class HardCodedTranslator : TranslateProvider {
-    private val knowledge = mapOf(
-            "новости" to "news",
-            "страна" to "country",
-            "компания" to "company"
-    )
-
-    override suspend fun Translate(ctx: Context, originalLanguage: String, originalWord: String, targetLanguage: String): String {
-        val t = knowledge.get(originalWord)
-        if (t != null)
-            return t
-        else
-            return "[not in base]"
-    }
-
-}
+//class HardCodedTranslator : TranslateProvider {
+//    private val knowledge = mapOf(
+//            "новости" to "news",
+//            "страна" to "country",
+//            "компания" to "company"
+//    )
+//
+//    override suspend fun Translate(ctx: Context, originalLanguage: String, originalWord: String, targetLanguage: String): String {
+//        val t = knowledge.get(originalWord)
+//        if (t != null)
+//            return t
+//        else
+//            return "[not in base]"
+//    }
+//
+//}
 
 
 class ServerTranslator(val url: String) : TranslateProvider {

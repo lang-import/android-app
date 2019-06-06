@@ -15,9 +15,6 @@ import org.jsoup.Jsoup
 import java.lang.Exception
 
 
-/**
- * TODO: document your custom view class.
- */
 class FeedItemView(context: Context?) : LinearLayout(context) {
 
 

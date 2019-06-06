@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.core.content.ContextCompat
 import android.widget.*
-import androidx.appcompat.view.ContextThemeWrapper
 import com.google.android.material.button.MaterialButton
 import org.jetbrains.anko.db.*
 import android.widget.LinearLayout.LayoutParams as lParams

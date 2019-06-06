@@ -26,7 +26,6 @@ import java.util.logging.Logger
 
 
 class ReaderActivity : AppCompatActivity() {
-    //draft BD
     var informersMap: HashMap<String, String> = Informers().map
     var informerURLList = mutableSetOf<String>()
     private lateinit var recyclerView: RecyclerView
@@ -122,12 +121,10 @@ class ReaderActivity : AppCompatActivity() {
         navigation_view.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_lang -> openDictsMenu()
-                R.id.action_conf -> openConfigMenu() // toast("Меню общих настроек")
-                R.id.action_wcolor -> {
-                    drawer_layout.setBackgroundColor(Color.WHITE)
-                }
-                R.id.action_bcolor -> {
-                    drawer_layout.setBackgroundColor(Color.BLACK)
+                R.id.action_conf -> openConfigMenu()
+                R.id.about -> {
+                    val intent = Intent(this, AboutActivity::class.java)
+                    startActivity(intent)
                 }
 
             }
@@ -170,7 +167,6 @@ class ReaderActivity : AppCompatActivity() {
 
     fun update(context: Context) {
         var allFeed = Feed()
-        //setTitle("loading ${reader.url}...")
         status = getString(R.string.loading).trimIndent()
         launch {
             for (reader in readerList) {

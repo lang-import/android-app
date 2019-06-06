@@ -25,8 +25,6 @@ class ConfigActivity : AppCompatActivity() {
 
         visualPercent.text = "Процент слов на замену: $part%"
 
-        //TODO add title
-        //setTitle(intent.extras.getString("title"))
 
         confPartBar?.setProgress(part)
         confPartBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
