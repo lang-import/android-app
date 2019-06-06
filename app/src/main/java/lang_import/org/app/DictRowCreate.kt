@@ -30,8 +30,6 @@ class DictRowCreate : AppCompatActivity() {
 
         completeBtn.setOnClickListener {
 
-            //TODO Text max lenght + not null text checks + id generate
-
             database.use {
                 insert(dictName,
                         "id" to allRows.count()+1,

@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
-import org.jetbrains.anko.alert
 import org.jetbrains.anko.db.dropTable
 import org.jetbrains.anko.toast
 import android.widget.LinearLayout.LayoutParams as lParams
