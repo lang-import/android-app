@@ -74,7 +74,7 @@
         <!-- MENU BTNS + HEADER -->
         <LinearLayout
             android:id="@+id/drawer_header"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/side_menu_back"
