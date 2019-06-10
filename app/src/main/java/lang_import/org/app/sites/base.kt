@@ -8,6 +8,7 @@ fun fetchContent(url: String): Element {
     val fUrl = URL(url)
     return when (fUrl.host) {
         "news.mail.ru" -> mailRu(url)
+        "www.goha.ru" -> gohaSimple(url)
         else -> fallback(url)
     }
 }
