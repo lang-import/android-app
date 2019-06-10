@@ -1,5 +1,11 @@
 # Lang import
 
+The the application - RSS reader for phones with the Android operating system. Main usage: app get random words from articles and translate it into the selected language.
+
+### Authors
+* Kozlov Ivan
+* Baryshnikov Aleksandr
+
 # Used repositories:
 
 ## Credits

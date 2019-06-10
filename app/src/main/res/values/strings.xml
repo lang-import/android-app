@@ -82,4 +82,9 @@
     </string>
     <string name="about_btn">О приложении</string>
     <string name="hollow" />
+    <string name="program_desc">The the application - RSS reader for phones with the Android operating system. \n
+        Main usage: app get random words from articles and translate it into the selected language.</string>
+    <string name="app_author">Authors \n
+- Kozlov Ivan \n
+- Baryshnikov Aleksandr \n</string>
 </resources>
