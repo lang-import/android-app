@@ -18,3 +18,10 @@ fun mailRu(url: String): Element {
     article.select(".shares").remove()
     return article
 }
+
+fun gohaSimple(url: String): Element {
+    val content = URL(url).readText()
+    val page = Jsoup.parse(content)
+    val article = page.select("div.news").first()
+    return article
+}

@@ -18,7 +18,7 @@ class ConfigActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val env = PreferenceManager.getDefaultSharedPreferences(this)
-        var part = env.getInt("part", 0)
+        var part = env.getInt("part", 10)
         var targetLang = env.getString("targetLang", "en")
         setContentView(R.layout.config_activity)
         viewManager = LinearLayoutManager(this)

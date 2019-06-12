@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,4 +12,18 @@
         android:layout_centerHorizontal="true"
         android:choiceMode="multipleChoice">
     </ListView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:padding="1dp">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:backgroundTint="@color/colorPrimary" />
+    </FrameLayout>
 </RelativeLayout>
