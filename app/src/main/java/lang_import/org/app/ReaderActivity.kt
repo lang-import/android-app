@@ -68,6 +68,7 @@ class ReaderActivity : AppCompatActivity() {
 
         //first App Launch
         if (envInformers.isEmpty()) {
+            env.edit().putInt("part", 10).apply()
             val intent = Intent(this, InformersMenu::class.java)
             startActivity(intent)
         }
