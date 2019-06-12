@@ -9,6 +9,7 @@ fun fetchContent(url: String): Element {
     return when (fUrl.host) {
         "news.mail.ru" -> mailRu(url)
         "www.goha.ru" -> gohaSimple(url)
+        "tproger.ru" -> tprogerSimple(url)
         else -> fallback(url)
     }
 }
