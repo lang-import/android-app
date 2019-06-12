@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.widget.*
 import android.widget.ArrayAdapter
+import kotlinx.android.synthetic.main.article_activity.*
 import kotlinx.android.synthetic.main.informers_menu.*
+import kotlinx.android.synthetic.main.informers_menu.back_btn
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
@@ -51,6 +53,10 @@ class InformersMenu : AppCompatActivity() {
         fun forceUpdateEnv() {
             env.edit().putInt("dummy", 0).apply()
             env.edit().putInt("dummy", 1).apply()
+        }
+
+        back_btn.setOnClickListener { view ->
+            this.finish()
         }
 
         informersList.setOnItemClickListener { adapterView, view, i, len ->
