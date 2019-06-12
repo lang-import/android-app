@@ -17,7 +17,11 @@ fun mailRu(url: String): Element {
     article.select(".block.margin_horizontal_m10").remove()
     article.select(".hdr.hdr_nobg.hdr_noborder.hdr_html.margin_vertical_20").remove()
     article.select(".shares").remove()
-    val src = "<a href=\"${url}\">Полная версия статьи.</a>"
+
+    // add sub-text from article
+    article.append(page.selectFirst(".article__text").toString())
+
+    val src = "<br/><a href=\"${url}\">Полная версия статьи.</a>"
     article.append(src)
     return article
 }
@@ -26,7 +30,7 @@ fun gohaSimple(url: String): Element {
     val content = URL(url).readText()
     val page = Jsoup.parse(content)
     val article = page.select("div.news").first()
-    val src = "<a href=\"${url}\">Полная версия статьи.</a>"
+    val src = "<br/><a href=\"${url}\">Полная версия статьи.</a>"
     article.append(src)
     return article
 }
@@ -35,7 +39,7 @@ fun tprogerSimple(url: String): Element {
     val content = URL(url).readText()
     val page = Jsoup.parse(content)
     val article = page.select("article").first()
-    val src = "<a href=\"${url}\">Полная версия статьи.</a>"
+    val src = "<br/><a href=\"${url}\">Полная версия статьи.</a>"
     article.append(src)
     return article
 }
