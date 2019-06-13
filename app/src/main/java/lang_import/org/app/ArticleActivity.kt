@@ -18,6 +18,7 @@ import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import java.util.*
 import java.util.regex.Pattern
@@ -30,6 +31,8 @@ class ArticleActivity : AppCompatActivity() {
     var back_url = ""
     private val css: String
         get() = getString(R.string.css).trimIndent()
+    private val linkText: String
+        get() = getString(R.string.link_txt).trimIndent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +97,14 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     fun getFullArticle(url: String): String {
-        return fetchContent(url).html()
+        val res = addLink(fetchContent(url), url)
+        return res.html()
+    }
+
+    fun addLink(art: Element, url: String): Element {
+        val src = "<br/><a href=\"${url}\">${linkText}</a>"
+        art.append(src)
+        return art
     }
 
     fun clearText(txt: String): String {
@@ -195,7 +205,7 @@ class ArticleActivity : AppCompatActivity() {
             val import = rowLst[1].trim().toLowerCase()
 
             if (original in rep) {
-                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(),"$1${import}$3")
+                res = res.replace(("([^\\w]+)(" + Pattern.quote(original) + ")([^\\w]+)").toRegex(), "$1${import}$3")
 
                 Log.i("replace(local)", "${rowLst[0]} -> ${rowLst[1]}")
             }
