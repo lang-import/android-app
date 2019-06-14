@@ -1,6 +1,7 @@
 package lang_import.org.app
 
 import android.content.Context
+import android.util.Log
 import kotlinx.coroutines.async
 import java.net.URL
 import java.net.URLEncoder
@@ -42,13 +43,21 @@ class ServerTranslator(val url: String) : TranslateProvider {
             urlParams += word.toLowerCase() + ","
         }
         val req = url + "batch-translate/to/" + URLEncoder.encode(targetLanguage, "UTF-8") + "?words=" + urlParams
-        val res = async { URL(req).readText() }.await()
+
+        var res = ""
+        try {
+            res = async { URL(req).readText() }.await()
+        } catch (ex: Exception) {
+            Log.e("[TRANSLATE_LOAD_ERR]: ", ex.toString())
+        }
+
+
         return res
     }
 }
 
 
-fun defaultProvider(url:String): ServerTranslator {
+fun defaultProvider(url: String): ServerTranslator {
     return ServerTranslator(url)
 }
 

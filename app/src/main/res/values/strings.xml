@@ -87,4 +87,6 @@
     <string name="app_author">Authors \n
 - Kozlov Ivan \n
 - Baryshnikov Aleksandr \n</string>
+    <string name="link_txt">Полная версия статьи.</string>
+    <string name="translateErrorLoad">Translate Load - connection error</string>
 </resources>
