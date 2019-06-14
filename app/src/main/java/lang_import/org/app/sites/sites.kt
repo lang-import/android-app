@@ -1,5 +1,6 @@
 package lang_import.org.app.sites
 
+import android.util.Log
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.net.URL
@@ -27,6 +28,17 @@ fun gohaSimple(url: String): Element {
     val content = URL(url).readText()
     val page = Jsoup.parse(content)
     val article = page.select("div.news").first()
+    val src = "<br/><a href=\"${url}\">Полная версия статьи.</a>"
+    article.append(src)
+    return article
+}
+
+fun tprogerSimple(url: String): Element {
+    val content = URL(url).readText()
+    val page = Jsoup.parse(content)
+    val article = page.select("article").first()
+    val src = "<br/><a href=\"${url}\">Полная версия статьи.</a>"
+    article.append(src)
     return article
 }
 
