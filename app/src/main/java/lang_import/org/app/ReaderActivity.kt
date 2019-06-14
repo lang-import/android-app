@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.preference.PreferenceManager
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
