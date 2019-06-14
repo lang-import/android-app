@@ -17,6 +17,7 @@ import lang_import.org.app.sites.fetchContent
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.select
+import org.jetbrains.anko.toast
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
@@ -33,6 +34,8 @@ class ArticleActivity : AppCompatActivity() {
         get() = getString(R.string.css).trimIndent()
     private val linkText: String
         get() = getString(R.string.link_txt).trimIndent()
+    private val translateErrorLoad: String
+        get() = getString(R.string.translateErrorLoad).trimIndent()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,19 +176,23 @@ class ArticleActivity : AppCompatActivity() {
         val translateResult = defaultProvider(back_url).MassTranslate(originalWords, targetLang)
 
         // Parse json answer from our service
-        val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
-        if (jsonResponse != null) {
+        try {
+            val jsonResponse = Klaxon().parseArray<ImportWord>(translateResult)
+            if (jsonResponse != null) {
+                for (rs in jsonResponse) {
+                    if (rs.word == "") {
+                        continue
+                    }
 
-            for (rs in jsonResponse) {
-                if (rs.word == "") {
-                    continue
+                    Log.i("translate::", rs.original + "==>" + rs.word)
+
+                    rs.lang = " <div class=\"tooltip\">${rs.word}<span class=\"tooltiptext\">${rs.original}\n${rs.spell}</span></div> "
+                    importWords.add(rs)
                 }
-
-                Log.i("translate::", rs.original + "==>" + rs.word)
-
-                rs.lang = " <div class=\"tooltip\">${rs.word}<span class=\"tooltiptext\">${rs.original}\n${rs.spell}</span></div> "
-                importWords.add(rs)
             }
+        } catch (ex: Exception) {
+            runOnUiThread(Runnable { toast(translateErrorLoad) })
+            Log.e("[KLAXON_PARSING_ERR]: ", ex.toString())
         }
         return importWords
     }
