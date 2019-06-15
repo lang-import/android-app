@@ -37,3 +37,17 @@ fun tprogerSimple(url: String): Element {
     val article = page.select("article").first()
     return article
 }
+
+fun threeDnews(url: String): Element {
+    val content = URL(url).readText()
+    val page = Jsoup.parse(content)
+    val article = page.select("#section-content").first()
+    return article
+}
+
+fun habr(url: String): Element {
+    val content = URL(url).readText()
+    val page = Jsoup.parse(content)
+    val article = page.select("div.post__wrapper").first()
+    return article
+}

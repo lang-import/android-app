@@ -10,6 +10,8 @@ fun fetchContent(url: String): Element {
         "news.mail.ru" -> mailRu(url)
         "www.goha.ru" -> gohaSimple(url)
         "tproger.ru" -> tprogerSimple(url)
+        "3dnews.ru" -> threeDnews(url)
+        "habr.com" -> habr(url)
         else -> fallback(url)
     }
 }
