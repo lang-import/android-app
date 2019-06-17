@@ -240,6 +240,15 @@ class ArticleActivity : AppCompatActivity() {
         for (node in goodLines) {
             node.newText = node.newText.replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
                     "$1${w.lang}$3")
+
+            //Second replace if we have words in camelCase
+            if (w.original in node.newText.toLowerCase()) {
+                node.newText = node.newText
+                        .toLowerCase()
+                        .replace(("([^\\w]+)(" + Pattern.quote(w.original) + ")([^\\w]+)").toRegex(),
+                                "$1${w.lang}$3")
+            }
+
             // check in local dicts
             node.newText = localTranslater(node.newText)
         }

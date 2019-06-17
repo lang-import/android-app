@@ -10,7 +10,8 @@ class Informers {
             "RT" to "https://russian.rt.com/rss",
             "lifehacker" to "https://lifehacker.ru/feed/",
             "BBC.co.uk" to "http://feeds.bbci.co.uk/news/world/europe/rss.xml",
-            "lenta" to "https://lenta.ru/rss/news"
+            "lenta" to "https://lenta.ru/rss/news",
+            "3dnews" to "https://3dnews.ru/news/rss"
     )
 }
 
